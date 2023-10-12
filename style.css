@@ -1,0 +1,14 @@
+body {
+    background-color: beige;
+}
+.LogInButtons {
+    background-color: #588157;
+    width: 10%;
+}
+.LogInButtons-Container {
+    width: 150px;
+}
+.Account-Creation-Hyperlink {
+    text-decoration: underline;
+    color: blue;
+}
