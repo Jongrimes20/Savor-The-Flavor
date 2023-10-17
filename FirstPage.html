@@ -5,16 +5,15 @@
 <html> 
     <head>
         <title>Savor The Falvor Homepage</title>
+        <!--Links html to css-->
+        <link rel="stylesheet" type="text/css" href="style.css">
     </head>
 
     <body>
         <h1>Welcome to Savor the Falvor</h1>
-        <!-- 
-            both buttons will have the same style thus same div
-        -->
-        <div class = "log-in-buttons">
-            <button type="button">Customer Login/Sign-Up</button>
-            <button type="button">Employee Login</button>
-        </div>
+            <div class = "LogInButtons-Contianer">
+                <button class = "LogInButtons" type="button" onclick="window.location.href = 'CustomerLogin.html';">Customer Login/Sign-Up</button>
+                <button class = "LogInButtons" type="button" onclick="window.location.href = 'EmployeeLogin.html';">Employee Login</button>
+            </div>
     </body>
 </html>
