@@ -1,0 +1,36 @@
+<!--
+    Customer Login Page
+    - Also Contains button for creating new customer account
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Customer Login</title>
+    <!--Links html to css-->
+    <link rel="stylesheet" type="text/css" href="../CSS/style.css" />
+  </head>
+
+  <body>
+    <h1>Customer Login</h1>
+    <form>
+      <div class="form-container">
+        <h2>Phone Number</h2>
+        <input
+          name="customerPhNumber"
+          value="Ph Number"
+          onfocus="if(this.value=='Ph Number') {this.value='', this.style.color='#999'};"
+          onblur="if(this.value=='') {this.value='Ph Number', this.style.color='#555';}"
+        />
+        <!-- remove this once fixed:  --><br>dev note: need to fix the spacing between txtbx and text^
+      </div>
+      <button class="button-container">Submit</button>
+      <!--
+                Make this a hyper link to customer signup
+            -->
+
+      <!-- <p class="link" onclick="window.location.href="";">
+        Dont have an account? Create and account
+      </p> -->
+    </form>
+  </body>
+</html>

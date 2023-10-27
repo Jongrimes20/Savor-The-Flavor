@@ -1,0 +1,95 @@
+/* color pallate: https://colorhunt.co/palette/186f65b5cb99fce09bb2533e */
+@import url("https://fonts.googleapis.com/css?family=Bowlby+One+SC");
+
+body {
+  background-color: #186f65;
+  margin: 0;
+}
+h1 {
+  font-family: "Bowlby One SC", cursive;
+  font-size: 500%;
+  text-align: center;
+  color: #186f65;
+  background-color: #fce09b;
+  border: 0px;
+  border-bottom: 15px;
+  border-style:groove;
+  border-color: #186f65;
+  margin: 0px;
+  min-height: fit-content;
+}
+button {
+  font-family: "Bowlby One SC", cursive;
+  font-size: large;
+  color: #186f65;
+  background-color: #fce09b;
+  border-radius: 9px;
+  border-width: 5px;
+  border-color: black;
+  min-width: 20%;
+  align-self: center;
+}
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+h2 {
+  width: fit-content;
+  /* background-color:bisque; */
+}
+form {
+  background-color: #B5CB99;
+  margin-left: 25%;
+  margin-right: 25%;
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  /* width: 50%; */
+  justify-self: center;
+  border-radius: 20%;
+}
+input {
+  align-self:center;
+  width: fit-content;
+}
+.form-container{
+  display: flex;
+  margin-bottom: 1%;
+  flex-wrap: wrap;
+  flex-flow:wrap;
+  justify-content: center;
+  /* width: fit-content; */
+  /* background-color: blue; */
+}
+p {
+  font-style: italic;
+  align-self: center;
+}
+.link {
+  text-decoration: underline;
+  text-decoration-color: #186f65;
+  color:#186f65;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*.Account-Creation-Hyperlink {
+  text-decoration: underline;
+  color: blue;
+}
+.text {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: white;
+  text-align: center;
+  /* font-size: ; */
+/* } */
