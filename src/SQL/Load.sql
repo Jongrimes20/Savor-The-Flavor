@@ -99,7 +99,7 @@ VALUES
         "Carlie Gardner",
         "3862018826",
         "8175 Kirkland Court, San Juan, TX 78589"
-   );
+    );
 
 #POPULATE SUPPLIERS TABLE
 INSERT INTO
@@ -181,10 +181,10 @@ VALUES
         6.00
     );
 
-#POPULATE MENU_ITEMS_INGREDIENTS_LIST TABLE
+# POPULATE MENU_ITEMS_INGREDIENTS_LIST TABLE
 INSERT INTO
     MENU_ITEMS_INGREDIENTS_LIST(MENU_ITEM_ID, INGREDIENT)
-VALUES 
+VALUES
     (
         1,
         "Chicken Breast, Fettuccine Pasta, Alfredo Sauce"
@@ -199,27 +199,24 @@ VALUES
     ),
     (
         4,
-        "Chicken Breast, Parmesan Cheese, Tomato Basil Sauce" 
+        "Chicken Breast, Parmesan Cheese, Tomato Basil Sauce"
     ),
     (
         5,
         "Chicken Breast, White Mushroom, Marsala Sauce"
     ),
-    (
-        10,
-        "Vanilla Ice Cream"
-    );
+    (10, "Vanilla Ice Cream");
 
-# POPULATE CUSTOMERS TABLE
+# POPULATE CUSTOMERS_INFORMATION TABLE
 INSERT INTO
-    CUSTOMERS(CUSTOMER_ID, PHONE_NUMBER, CUSTOMER_NAME, ORDERS)
+    CUSTOMER_INFORMATION(CUSTOMER_ID, PHONE_NUMBER, CUSTOMER_NAME)
 VALUES
-    (1, "7131234567", "Eugene McDermott", 1),
-    (2, "7137654321", "Tom Brady", 1),
-    (3, "8322387130", "Mariah Carey", 1),
-    (4, "8789098877", "Jalal Omer", 1),
-    (5, "6550990777", "Temoc", 4),
-    (6, "3224556566", "Selena Gomez", 2);
+    (1, "7131234567", "Eugene McDermott"),
+    (2, "7137654321", "Tom Brady"),
+    (3, "8322387130", "Mariah Carey"),
+    (4, "8789098877", "Jalal Omer"),
+    (5, "6550990777", "Temoc"),
+    (6, "3224556566", "Selena Gomez");
 
 # POPULATE CUSTOMER_TRANSACTIONS TABLE
 INSERT INTO
@@ -248,20 +245,15 @@ VALUES
     (1, 4),
     (1, 5),
     (2, 5),
-    (2, 6),
     (3, 2),
     (4, 4),
     (4, 5),
     (5, 2),
     (5, 10),
     (5, 1),
-    (5, 4),
-    (5, 1),
-    (5, 10),
     (5, 4);
 
 # POPULATE SUPPLIERS TABLE
-
 # POPULATE SUPPLIER_TRANSACTIONS TABLE
 INSERT INTO
     SUPPLIER_TRANSACTIONS(
