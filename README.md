@@ -22,3 +22,7 @@
 
 > CustomerOrderCreation.html
 > CustomerOrderHistory.html
+
+### NEW PAGES TO ADD
+
+> place new order <- customer ONLY
