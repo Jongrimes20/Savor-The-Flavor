@@ -209,14 +209,19 @@ VALUES
 
 # POPULATE CUSTOMERS_INFORMATION TABLE
 INSERT INTO
-    CUSTOMER_INFORMATION(CUSTOMER_ID, PHONE_NUMBER, CUSTOMER_NAME)
+    CUSTOMER_INFORMATION(
+        CUSTOMER_ID,
+        PHONE_NUMBER,
+        CUSTOMER_NAME,
+        CUSTOMER_PASSWORD
+    )
 VALUES
-    (1, "7131234567", "Eugene McDermott"),
-    (2, "7137654321", "Tom Brady"),
-    (3, "8322387130", "Mariah Carey"),
-    (4, "8789098877", "Jalal Omer"),
-    (5, "6550990777", "Temoc"),
-    (6, "3224556566", "Selena Gomez");
+    (1, "7131234567", "Eugene McDermott", "password"),
+    (2, "7137654321", "Tom Brady", "apple123"),
+    (3, "8322387130", "Mariah Carey", "mariahCarey"),
+    (4, "8789098877", "Jalal Omer", "dbadmin-1"),
+    (5, "6550990777", "Temoc", "123@password.com"),
+    (6, "3224556566", "Selena Gomez", "gomez32");
 
 # POPULATE CUSTOMER_TRANSACTIONS TABLE
 INSERT INTO
