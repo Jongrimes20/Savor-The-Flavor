@@ -11,7 +11,6 @@
 
   <body>
     <!-- SCRIPT -->
-    <!-- <script type="module" src="../JS/CustomerLogin.js"></script> -->
 
     <!-- HTML -->
     <h1>Customer Login</h1>
@@ -40,30 +39,23 @@
       <div class="button-container">
         <button type="button" onclick="window.location.href= '/'">Back</button>
         <!--On click query customer and check if exists-->
-        <button
-          type="button"
-          onclick="window.location.href='/CustomerHomePage'"
-        >
-          Submit
-        </button>
+        <button type="button" onclick="loginCustomer()">Submit</button>
       </div>
       <p class="link" onclick="window.location.href= '/NewCustomer';">
         Dont have an account? Click here
       </p>
     </form>
 
+    <script type="module" src="js/CustomerLogin.js"></script>
     <script>
       function loginCustomer() {
         const phoneNumber = document.getElementById(
           "customerPhoneNumber"
         ).value;
         const password = document.getElementById("customerPassword").value;
-
-        //query here
-        // var customer = queryCustomerResultsFromLogin(phoneNumber, password);
-        // console.log(customer);
-
-        // window.location.href = "CustomerHomePage.html";
+        if (queryCustomerResultsFromLogin(phoneNumber, password))
+          window.location.href = "/CustomerHomepage";
+        else console.log("Invalid Entry");
       }
     </script>
   </body>
