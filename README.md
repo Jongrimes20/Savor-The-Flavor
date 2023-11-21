@@ -16,3 +16,4 @@ Once downloaded, type in the following command `npm install` to install packages
 ### Run Project
 
 To run the project, type in the following command in side the working directory of the project `npm start`
+In your browser, go to `localhost:3000`. There you should be able to see a responsive webpage!
