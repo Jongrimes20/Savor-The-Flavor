@@ -1,0 +1,105 @@
+/* color pallate: https://colorhunt.co/palette/186f65b5cb99fce09bb2533e */
+@import url("https://fonts.googleapis.com/css?family=Bowlby+One+SC");
+@import url("https://fonts.googleapis.com/css?family=Edu+TAS+Beginner");
+@import url("https://fonts.googleapis.com/css?family=Fondamento");
+
+body {
+  background-color: #186f65;
+  margin: 0;
+}
+h1 {
+  font-family: "Fondamento", cursive;
+  font-size: 500%;
+  text-align: center;
+  color: #186f65;
+  background-color: #fce09b;
+  border-bottom: 15px;
+  border-style: solid;
+  border-color: #b2533e;
+  margin: 0px;
+  margin-bottom: 3%;
+  min-height: fit-content;
+  border-bottom-left-radius: 43px;
+  border-bottom-right-radius: 43px;
+}
+button {
+  font-family: "Fondamento", cursive;
+  font-size: large;
+  color: #186f65;
+  background-color: #fce09b;
+  border-radius: 9px;
+  border-width: 5px;
+  border-color: #b2533e;
+  border-style: solid;
+  min-width: 20%;
+  width: fit-content;
+  /* max-width: 25%; */
+  align-self: center;
+  font-weight: bold;
+}
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2%;
+}
+h2 {
+  width: 27%;
+  color: #186f65;
+  font-family: "Fondamento", cursive;
+}
+.field{
+  font-family: "Times New Roman";
+  color: #b2533e
+}
+form {
+  background-color: #b5cb99;
+  margin-left: 30%;
+  margin-right: 30%;
+  display: flex;
+  flex-direction: column;
+  padding: 2%;
+  border-radius: 43px;
+  border-color: #b2533e;
+  border-width: 10px;
+  border-style:solid;
+}
+input {
+  align-self: center;
+  width: fit-content;
+  max-width: max-content;
+  border-color: #b2533e;
+  background-color: whitesmoke;
+  border-width: 5px;
+  border-radius: 10px;
+  font-style: italic;
+  border-style: solid;
+}
+.form-container {
+  display: flex;
+  margin-bottom: 1%;
+  flex-wrap: wrap;
+  flex-flow: wrap;
+  justify-content: center;
+}
+p {
+  font-style: italic;
+  align-self: center;
+  font-size: large;
+}
+.link {
+  text-decoration: underline;
+  text-decoration-color: #186f65;
+  color: #186f65;
+}
+
+/*.Account-Creation-Hyperlink {
+  text-decoration: underline;
+  color: blue;
+}
+.text {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: white;
+  text-align: center;
+  /* font-size: ; */
+/* } */

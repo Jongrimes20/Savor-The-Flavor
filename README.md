@@ -1,28 +1,18 @@
 # Savor-The-Flavor
 
-## Pages
+## To Run
 
-> FirstPage.html
-> Entry page for Website
-> CustomerLogin.html
-> Customer Login Page (directed from FirstPage.html)
-> (TO-DO: Create customer login function)
-> EmployeeLogin.html
-> Employee Login Page (directed from FirstPage.html)
-> (TO-DO: Create employee login function)
-> NewCustomer.html
-> First-time Customer Login Page (directed from CustomerLogin.html)
-> (TO-DO: Create customer creation function)
-> CustomerAccountCreation.html
-> InventoryManagement.html
-> CustomerHomepage.html
-> CustomerAccountManagement.html
+Since this project uses node, make sure you have nodejs installed.
 
-### Unused Pages
+### Instructions to install node
 
-> CustomerOrderCreation.html
-> CustomerOrderHistory.html
+If this is your first time using node, use the following link to download node:
+https://nodejs.org/en/download
 
-### NEW PAGES TO ADD
+### Install Packages
 
-> place new order <- customer ONLY
+Once downloaded, type in the following command `npm install` to install packages (try to do this everytime you pull something from GIT).
+
+### Run Project
+
+To run the project, type in the following command in side the working directory of the project `npm start`
