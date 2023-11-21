@@ -1,0 +1,19 @@
+{
+  "name": "savor-the-flavor",
+  "version": "1.0.0",
+  "description": "> FirstPage.html\r > Entry page for Website\r > CustomerLogin.html\r > Customer Login Page (directed from FirstPage.html)\r > (TO-DO: Create customer login function)\r > EmployeeLogin.html\r > Employee Login Page (directed from FirstPage.html)\r > (TO-DO: Create employee login function)\r > NewCustomer.html\r > First-time Customer Login Page (directed from CustomerLogin.html)\r > (TO-DO: Create customer creation function)\r > CustomerAccountCreation.html\r > InventoryManagement.html\r > CustomerHomepage.html\r > CustomerAccountManagement.html",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
