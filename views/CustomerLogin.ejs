@@ -21,9 +21,7 @@
           type="text"
           id="customerPhoneNumber"
           name="customerLoginPhNumber"
-          value="Ph Number"
-          onfocus="if(this.value=='Ph Number') {this.value=''};"
-          onblur="if(this.value=='') {this.value='Ph Number'}"
+          placeholder="Ph Number"
         />
       </div>
 
@@ -53,9 +51,10 @@
           "customerPhoneNumber"
         ).value;
         const password = document.getElementById("customerPassword").value;
-        if (queryCustomerResultsFromLogin(phoneNumber, password))
-          window.location.href = "/CustomerHomepage";
-        else console.log("Invalid Entry");
+        console.log(queryCustomerResultsFromLogin(phoneNumber, password));
+        // if (queryCustomerResultsFromLogin(phoneNumber, password))
+        //   window.location.href = "/CustomerHomepage";
+        // else console.log("Invalid Entry");
       }
     </script>
   </body>

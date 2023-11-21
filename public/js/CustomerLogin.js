@@ -25,6 +25,7 @@
 import Customer from "./Objects/Customer.js";
 
 function queryCustomerResultsFromLogin(PhoneNumber, Password) {
+  if (PhoneNumber == "" || Password == "") return null;
   //create empty customer object
   var customer = new Customer("Jon Keats", PhoneNumber, Password, "");
   //query from pool
@@ -40,7 +41,7 @@ function queryCustomerResultsFromLogin(PhoneNumber, Password) {
   //       customer.updateFromCustomerInformation(results[0]);
   //     }
   //   );
-  return null; // customer;
+  return customer;
 }
 
 window.queryCustomerResultsFromLogin = queryCustomerResultsFromLogin;
