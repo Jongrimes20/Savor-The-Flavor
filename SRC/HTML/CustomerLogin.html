@@ -1,0 +1,62 @@
+<!--
+    Customer Login Page
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Customer Login</title>
+    <!--Links html to css-->
+    <link rel="stylesheet" type="text/css" href="../CSS/style.css" />
+  </head>
+
+  <body>
+    <!-- SCRIPT -->
+    <script type="module" src = "../JS/CustomerLogin.js"></script>
+
+    
+
+    <!-- HTML -->
+    <h1>Customer Login</h1>
+    <form>
+      <div class="form-container">
+        <h2>Phone Number</h2>
+        <input
+          type = "text"
+          id="customerPhoneNumber"
+          name="customerLoginPhNumber"
+          value="Ph Number"
+          onfocus="if(this.value=='Ph Number') {this.value=''};"
+          onblur="if(this.value=='') {this.value='Ph Number'}"
+        />
+      </div>
+
+      <div class="form-container">
+        <h2>Password</h2>
+        <input type="password" id="customerPassword" name="customerLoginPassword"/>
+      </div>
+
+      <div class="button-container">
+        <button type="button" onclick = "window.location.href= 'FirstPage.html'">Back</button>
+        <!--On click query customer and check if exists-->
+        <button type="button" onclick="loginCustomer()" >Submit</button>
+      </div>
+      <p class="link" onclick="window.location.href= 'NewCustomer.html';">
+        Dont have an account? Click here
+      </p>
+    </form>
+
+    <script>
+      function loginCustomer() {
+        const phoneNumber = document.getElementById("customerPhoneNumber").value;
+        const password = document.getElementById("customerPassword").value;
+        
+        //query here
+        var customer = queryCustomerResultsFromLogin(phoneNumber, password);
+        console.log(customer);
+
+        // window.location.href = "CustomerHomePage.html";
+      }
+    </script>
+
+  </body>
+</html>
