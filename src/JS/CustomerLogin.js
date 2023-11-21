@@ -1,18 +1,24 @@
+// import Customer from "./Customer";
 /**
  *
  * @param {*} PhoneNumber customer phone number
  * @param {*} Password customer password
  */
 function queryCustomerFromLogIn(PhoneNumber, Password) {
-  //create empty customer object
+  document.getElementById("backbtn").innerHTML = "This is the " + Password;
+  // create empty customer object
   var customer = new Customer();
-
   //connect to DB and query
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "yourusername",
+    password: "yourpassword",
+  });
   con.connect(function (err) {
     if (err) throw err;
     //write query here
     con.query(
-      //TODO QUERY - NOT FINISHED
+      //QUERY - NOT FINISHED
       /**
        * Need to Join CUSTOMER_INFORMATION, CUSTOMER_TRANSACTIONS, and CUSTOMER_ORDERED_ITEMS
        * From CUSTOMER_INFORMATION we get:
@@ -38,6 +44,6 @@ function queryCustomerFromLogIn(PhoneNumber, Password) {
       }
     );
   });
+  document.getElementById("backbtn").innerHTML = "STATUS!";
   return customer;
 }
-export { queryCustomerFromLogIn };

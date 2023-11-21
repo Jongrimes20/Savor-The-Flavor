@@ -7,6 +7,24 @@
     <title>Customer Login</title>
     <!--Links html to css-->
     <link rel="stylesheet" type="text/css" href="../CSS/style.css" />
+    <script>
+      function customerLogin() {
+        //   var phNum = document.getElementById("customerLoginPhNumber");
+        //   var pwd = document.getElementById("customerLoginPassword");
+        //   queryCustomerFromLogIn(phNum, pwd);
+        document.getElementById("submitbtn").innerHTML = "SUBMITTED!";
+      }
+    </script>
+    <script src="../JS/Customer.js"></script>
+    <script src="../JS/CustomerLogin.js"></script>
+    <script>
+      function customerLLogin(){
+        var phNum = document.getElementById("customerLoginPhNumber");
+        var pwd = document.getElementById("customerLoginPassword").value;
+        queryCustomerFromLogIn(phNum, pwd);
+        document.getElementById("submitbtn").onclick="window.location.href='NewCustomer.html'";
+      }
+    </script>
   </head>
 
   <body>
@@ -28,22 +46,24 @@
       </div>
 
       <div class="button-container">
-        <button type="button" onclick="window.location.href= 'FirstPage.html'">
+        <button
+          id="backbtn"
+          type="button"
+          onclick="customerLLogin()"
+        >
           Back
         </button>
-        <button type="button" onclick="customerLogin()">Submit</button>
+        <button id="submitbtn" type="button" onclick="customerLogin()">
+          Submit
+        </button>
       </div>
       <p class="link" onclick="window.location.href= 'NewCustomer.html';">
         Dont have an account? Click here
       </p>
     </form>
-    <script src="../JS/CustomerLogin.js">
-      function customerLogin(){
-        var phNum = document.getElementById("customerLoginPhNumber");
-        var pwd = document.getElementById("customerLoginPassword");
-        queryCustomerFromLogIn(phNum, pwd);
-      }
+    
     </script>
+    <script></script>
   </body>
 </html>
 
