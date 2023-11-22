@@ -22,25 +22,16 @@
 //  * QUESTION - Do we return customer object or just the result?
 //  */
 
-import Customer from "./Objects/Customer.js";
+import Customer from "./../../models/Customer.js";
+// import pool from "./../../config/dbconnect.js";
+
+// import Customer from "./objects/Customer.js";
 
 function queryCustomerResultsFromLogin(PhoneNumber, Password) {
   if (PhoneNumber == "" || Password == "") return null;
   //create empty customer object
   var customer = new Customer("Jon Keats", PhoneNumber, Password, "");
-  //query from pool
-  //   pool.query(
-  //     "SELECT * FROM Customer_Information WHERE PHONE_NUMBER = " +
-  //       PhoneNumber +
-  //       "AND CUSTOMER_PASSWORD = " +
-  //       Password,
-  //     (err, results, fields) => {
-  //       if (err) {
-  //         console.log(err);
-  //       }
-  //       customer.updateFromCustomerInformation(results[0]);
-  //     }
-  //   );
+
   return customer;
 }
 

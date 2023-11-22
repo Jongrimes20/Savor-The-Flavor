@@ -1,13 +1,30 @@
 // Imports
+require("dotenv").config();
+// const connection = require("./public/js/dbconnect");
 const express = require("express");
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Static Files
+app.use(express.json());
 app.use(express.static("public"));
 app.use("/css", express.static(__dirname + "public/css"));
 app.use("/js", express.static(__dirname + "public/js"));
 app.use("/img", express.static(__dirname + "public/img"));
+app.use("/models", express.static("models"));
+app.use("/config", express.static("config"));
+app.use("/posts", require("./routes/postRoutes"));
+
+// Global Error Handler.
+app.use((err, req, res, next) => {
+  console.log(err.stack);
+  console.log(err.name);
+  console.log(err.code);
+
+  res.status(500).json({
+    message: "Something went really wrong",
+  });
+});
 
 // Set Views
 app.set("views", "./views");
@@ -45,4 +62,6 @@ app.get("/NewCustomer", (req, res) => {
 });
 
 // Listen on port 3000
-app.listen(port, () => console.info(`Listening on port ${port}`));
+app.listen(PORT, async () => {
+  console.info(`Listening on port ${PORT}`);
+});
