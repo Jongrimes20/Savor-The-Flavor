@@ -1,9 +1,4 @@
-/**
- * Customer Class
- * Jon Grimes 11/18/23
- */
-// import "./../config/dbconnect.js";
-const db = require("../config/dbconnect");
+const db = require("../config/dbconnect.js");
 // Contains Customer class
 class Customer {
   //class variables
@@ -28,5 +23,3 @@ class Customer {
     this.Password = result.CUSTOMER_PASSWORD;
   }
 }
-
-export default Customer;
