@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify ./public/js/CustomerLogin.js -o ./public/dist/CustomerLogin-bundle.js",
+    "build": "browserify ./models/Customer.js ./public/js/CustomerLogin.js -o ./public/dist/CustomerLogin-bundle.js",
     "start": "npm install && npm run build && nodemon app.js"
   },
   "author": "",
@@ -16,7 +16,8 @@
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "mysql": "^2.18.1",
-    "mysql2": "^3.6.5"
+    "mysql2": "^3.6.5",
+    "process": "^0.11.10"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

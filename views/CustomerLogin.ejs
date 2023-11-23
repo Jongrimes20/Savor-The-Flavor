@@ -49,8 +49,16 @@
         const phoneNumber = document.getElementById(
           "customerPhoneNumber"
         ).value;
+
         const password = document.getElementById("customerPassword").value;
+
+        if (phoneNumber == "" || password == "") {
+          alert("password and phnumber are necessary");
+          return;
+        }
+        window.location.href = "/CustomerLogin/" + phoneNumber + "/" + password;
         console.log(queryCustomerResultsFromLogin(phoneNumber, password));
+        // window.location.href = "/CustomerLogin";
       }
     </script>
   </body>

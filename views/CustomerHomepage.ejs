@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Customer Homepage</title>
+    <title>Welcome <%= customer.CUSTOMER_NAME %></title>
     <link rel="stylesheet" type="text/css" href="css/main.css" />
   </head>
   <body>
-    <h1>Customer HomePage</h1>
+    <h1><%= customer.CUSTOMER_NAME %>'s Homepage</h1>
     <div class="button-container">
       <button
         type="button"
@@ -19,13 +19,28 @@
       >
         View Order History
       </button>
-      <button
-        type="button"
-        onclick="window.location.href = '/CustomerAccountManagement';"
-      >
+      <button type="button" onclick="manageAcctPage();">
         Manage Your Account
       </button>
     </div>
     <!--Links to Create New Order, Order HIstory, Account Managnment-->
+    <script>
+      function manageAcctPage() {
+        // Get the URL query parameters
+        const urlSearchParams = new URLSearchParams(window.location.search);
+
+        // Convert the URL query parameters to a plain object
+        const queryParams = Object.fromEntries(urlSearchParams.entries());
+
+        // Extract the customer ID from the queryParams object
+        const customerId = queryParams.id;
+
+        // console.log("CUSTOMER_ID: " + customerId);
+        // const customerObject = JSON.parse(id);
+        // const customerId = customerObject.CUSTOMER_ID;
+        // console.log("PASCODE: " + customerId);
+        window.location.href = "/CustomerAccountManagement?id=" + customerId;
+      }
+    </script>
   </body>
 </html>

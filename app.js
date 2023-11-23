@@ -1,9 +1,18 @@
 // Imports
 require("dotenv").config();
-const connection = require("./config/dbconnect");
 const express = require("express");
+// const { connect } = require("./routes/postRoutes");
+const mysql = require("mysql2/promise");
 const app = express();
 const PORT = process.env.PORT || 3000;
+const PERMANENT_REDIRECT = 301;
+const TEMPORARY_REDIRECT = 302;
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
 
 // Static Files
 app.use(express.json());
@@ -33,15 +42,78 @@ app.set("view engine", "ejs");
 app.get("", (req, res) => {
   res.render("index");
 });
-app.get("/CustomerAccountManagement", (req, res) => {
-  res.render("CustomerAccountManagement");
+
+app.get("/CustomerAccountManagement", async (req, res) => {
+  try {
+    // Get a connection from the pool
+    connection = await pool.getConnection();
+    const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
+    // Run your query
+    const [rows, fields] = await connection.query(sql, [req.query.id]);
+    res.render("CustomerAccountManagement", { customer: rows[0] });
+  } catch (error) {
+    // Handle errors
+    throw error;
+  } finally {
+    // Release the connection back to the pool
+    if (connection) {
+      connection.release();
+    }
+  }
 });
-app.get("/CustomerHomepage", (req, res) => {
-  res.render("CustomerHomepage");
+
+app.get("/CustomerHomepage", async (req, res) => {
+  try {
+    // Get a connection from the pool
+    connection = await pool.getConnection();
+    const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
+    // Run your query
+    const [rows, fields] = await connection.query(sql, [req.query.id]);
+    res.render("CustomerHomePage", { customer: rows[0] });
+  } catch (error) {
+    // Handle errors
+    throw error;
+  } finally {
+    // Release the connection back to the pool
+    if (connection) {
+      connection.release();
+    }
+  }
 });
+
 app.get("/CustomerLogin", (req, res) => {
   res.render("CustomerLogin");
 });
+
+app.get("/CustomerLogin/:phNum/:pwd", async (req, res) => {
+  let phNum = req.params.phNum;
+  let pwd = req.params.pwd;
+  let connection;
+  try {
+    // Get a connection from the pool
+    connection = await pool.getConnection();
+    const sql =
+      "SELECT * FROM Customer_Information WHERE PHONE_NUMBER = ? AND CUSTOMER_PASSWORD = ?";
+    // Run your query
+    const [rows, fields] = await connection.query(sql, [phNum, pwd]);
+    if (rows.length == 1) {
+      res.redirect(`/CustomerHomepage?id=${rows[0].CUSTOMER_ID}`);
+      return;
+    } else {
+      res.redirect("/CustomerLogin");
+    }
+    // Do something with the results
+  } catch (error) {
+    // Handle errors
+    throw error;
+  } finally {
+    // Release the connection back to the pool
+    if (connection) {
+      connection.release();
+    }
+  }
+});
+
 app.get("/CustomerOrderCreation", (req, res) => {
   res.render("CustomerOrderCreation");
 });
@@ -61,7 +133,11 @@ app.get("/NewCustomer", (req, res) => {
   res.render("NewCustomer");
 });
 
-// Listen on port 3000
+// Listen on port PORT
 app.listen(PORT, async () => {
   console.info(`Listening on port ${PORT}`);
+  // connection.connect(function (err) {
+  //   if (err) throw err;
+  //   console.log("Database connected!");
+  // });
 });
