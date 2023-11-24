@@ -15,6 +15,7 @@
       <div class="form-container">
         <h2>Customer Name</h2>
         <input
+          type="text"
           name="customerName"
           placeholder="Enter name"
         />
@@ -23,6 +24,7 @@
       <div class="form-container">
         <h2>Phone Number</h2>
         <input
+          type="text"
           name="customerPhNumber"
           placeholder="Enter phone #"
         />
@@ -31,6 +33,7 @@
       <div class="form-container">
         <h2>Password</h2>
         <input
+          type="text"
           name="customerPassword"
           placeholder="Enter Password"
         >
@@ -38,6 +41,7 @@
       <div class="form-container">
         <h2>Confirm Password</h2>
         <input
+          type="text"
           name="confirmCustomerPassword"
           placeholder="Re-Enter Password"
         >
@@ -67,10 +71,11 @@
           alert("Make sure passwords match");
           return;
         }
-        else if (customerName == ""|| customerPhNumber == "" || customerPassword == "" || confirmedPassword == "") {
-          alert("Make sure to complete each field");
-          return;
-        }
+        
+        // else if (customerName == ""|| customerPhNumber == "" || customerPassword == "" || confirmedPassword == "") {
+        //   alert("Make sure to complete each field");
+        //   return;
+        // }
 
         /**
          * run query from app.js

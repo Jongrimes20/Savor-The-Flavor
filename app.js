@@ -144,8 +144,7 @@ app.get("/NewCustomer/:custName/:custPhNum/:custPwrd", async (req, res) => {
     connection = await pool.getConnection();
     const sql = "INSERT INTO CUSTOMER_INFORMATION(PHONE_NUMBER, CUSTOMER_NAME, CUSTOMER_PASSWORD) VALUES(?,?,?)";
     const[rows, fields] = connection.query(sql);
-    
-    
+  
     res.redirect(`/CustomerHomepage?id=${rows[rows.length].CUSTOMER_ID}`);
 
   } catch(error) { //catch error
