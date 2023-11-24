@@ -16,9 +16,7 @@
         <h2>Customer Name</h2>
         <input
           name="customerName"
-          value="Enter name"
-          onfocus="if(this.value=='Enter name') {this.value=''};"
-          onblur="if(this.value=='') {this.value='Enter name'}"
+          placeholder="Enter name"
         />
       </div>
 
@@ -26,22 +24,30 @@
         <h2>Phone Number</h2>
         <input
           name="customerPhNumber"
-          value="Enter phone #"
-          onfocus="if(this.value=='Enter phone #') {this.value=''}"
-          onblur="if(this.value=='') {this.value='Enter phone #'}"
+          placeholder="Enter phone #"
         />
+      </div>
+
+      <div class="form-container">
+        <h2>Password</h2>
+        <input
+          name="customerPassword"
+          placeholder="Enter Password"
+        >
+      </div>
+      <div class="form-container">
+        <h2>Confirm Password</h2>
+        <input
+          name="confirmCustomerPassword"
+          placeholder="Re-Enter Password"
+        >
       </div>
 
       <div class="button-container">
         <button type="button" onclick="window.location.href='/CustomerLogin'">
           Back
         </button>
-        <button
-          type="button"
-          onclick="window.location.href='/CustomerHomepage'"
-        >
-          Create My Account
-        </button>
+        <button type="button" onclick="createNewCustomer()">Create Account</button>
       </div>
 
       <p>
@@ -49,5 +55,29 @@
         unique ID
       </p>
     </form>
+    <script>
+      function createNewCustomer() {
+        //get name, phoneNumber, and Password input
+        const customerName = document.getElementById("customerName").value;
+        const customerPhNumber = document.getElementById("customerPhNumber").value;
+        const customerPassword = document.getElementById("customerPassword").value;
+        const confirmedPassword = document.getElementById("confirmCustomerPassword").value;
+
+        if (customerPassword != confirmedPassword) {
+          alert("Make sure passwords match");
+          return;
+        }
+        else if (customerName == ""|| customerPhNumber == "" || customerPassword == "" || confirmedPassword == "") {
+          alert("Make sure to complete each field");
+          return;
+        }
+
+        /**
+         * run query from app.js
+         * note - doesn't have customer ID becuase that info will be created during query
+        */
+        window.location.href = "/NewCustomer/" + customerName + "/" + customerPhNumber + "/" + customerPassword;
+      }
+    </script>
   </body>
 </html>

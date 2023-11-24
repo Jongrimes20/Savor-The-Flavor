@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 // const { connect } = require("./routes/postRoutes");
 const mysql = require("mysql2/promise");
+const { connect } = require("./routes/postRoutes");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const PERMANENT_REDIRECT = 301;
@@ -131,6 +132,33 @@ app.get("/InventoryManagement", (req, res) => {
 
 app.get("/NewCustomer", (req, res) => {
   res.render("NewCustomer");
+});
+
+app.get("/NewCustomer/:custName/:custPhNum/:custPwrd", async (req, res) => {
+  let custName = req.params.custName;
+  let custPhNum = req.params.custPhNum;
+  let custPwrd = req.params.custPwrd;
+  let connection;
+  //try query
+  try {
+    connection = await pool.getConnection();
+    //determine customerID by setting new customer's customerID to be next available
+    const sql1 = "SELECT * FROM CUSTOMER_INFORMATION";
+    const[rows, fields] = connection.query(sql1);
+    let newCustomerID = rows.length+1;
+
+    //Add customer to customer_information
+    const sql2 = "INSERT INTO CUSTOMER_INFORMATION(CUSTOMER_ID, PHONE_NUMBER, CUSTOMER_NAME, CUSTOMER_PASSWORD) VALUES(?,?,?,?)"
+    
+
+  } catch(error) { //catch error
+    throw error;
+  } finally {
+    //relase connection back to pool
+    if (connection) {
+      connection.release();
+    }
+  }
 });
 
 // Listen on port PORT
