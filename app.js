@@ -142,10 +142,17 @@ app.get("/NewCustomer/:custName/:custPhNum/:custPwrd", async (req, res) => {
   //try query
   try {
     connection = await pool.getConnection();
+    //Insert into DB
     const sql = "INSERT INTO CUSTOMER_INFORMATION(PHONE_NUMBER, CUSTOMER_NAME, CUSTOMER_PASSWORD) VALUES(?,?,?)";
-    const[rows, fields] = connection.query(sql);
-  
-    res.redirect(`/CustomerHomepage?id=${rows[rows.length].CUSTOMER_ID}`);
+    await connection.query(sql, [custPhNum, custName, custPwrd]);
+
+    //Retrieve newley added account
+    const sql2 = "SELECT * FROM CUSTOMER_INFORMATION WHERE PHONE_NUMBER = ? AND CUSTOMER_PASSWORD =?";
+    const[rows, fields] = await connection.query(sql2, [custPhNum, custPwrd]);
+
+    console.log(rows[0]);
+    res.redirect(`/CustomerHomepage?id=${rows[rows.length-1].CUSTOMER_ID}`);
+    return;
 
   } catch(error) { //catch error
     throw error;

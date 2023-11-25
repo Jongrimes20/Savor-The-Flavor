@@ -66,17 +66,14 @@
         const customerPhNumber = document.getElementById("customerPhNumber").value;
         const customerPassword = document.getElementById("customerPassword").value;
         const confirmedPassword = document.getElementById("confirmCustomerPassword").value;
-
         if (customerPassword != confirmedPassword) {
           alert("Make sure passwords match");
           return;
         }
-        
-        // else if (customerName == ""|| customerPhNumber == "" || customerPassword == "" || confirmedPassword == "") {
-        //   alert("Make sure to complete each field");
-        //   return;
-        // }
-
+        else if (customerName == ""|| customerPhNumber == "" || customerPassword == "" || confirmedPassword == "") {
+          alert("Make sure to complete each field");
+          return;
+        }
         /**
          * run query from app.js
          * note - doesn't have customer ID becuase that info will be created during query
