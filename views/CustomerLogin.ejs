@@ -43,18 +43,19 @@
         Dont have an account? Click here
       </p>
     </form>
-
-    <script type="module" src="js/CustomerLogin.js"></script>
+    <script type="module" src="dist/CustomerLogin-bundle.js"></script>
     <script>
       function loginCustomer() {
-        const phoneNumber = document.getElementById(
-          "customerPhoneNumber"
-        ).value;
+        const phoneNumber = document.getElementById("customerPhoneNumber").value;
         const password = document.getElementById("customerPassword").value;
+
+        if (phoneNumber == "" || password == "") {
+          alert("password and phnumber are necessary");
+          return;
+        }
+        window.location.href = "/CustomerLogin/" + phoneNumber + "/" + password;
         console.log(queryCustomerResultsFromLogin(phoneNumber, password));
-        // if (queryCustomerResultsFromLogin(phoneNumber, password))
-        //   window.location.href = "/CustomerHomepage";
-        // else console.log("Invalid Entry");
+        // window.location.href = "/CustomerLogin";
       }
     </script>
   </body>

@@ -1,30 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Customer Account Managment</title>
+    <title><%= customer.CUSTOMER_NAME %>'s Account Managment</title>
     <!--Links html to css-->
     <link rel="stylesheet" type="text/css" href="css/main.css" />
   </head>
   <body>
-    <h1>Customer Account Managment</h1>
+    <h1><%= customer.CUSTOMER_NAME %>'s Account Managment</h1>
     <form>
       <div class="form-container">
         <h2>Name:</h2>
-        <h2 class="field">Jane Doe</h2>
+        <h2 class="field"><%= customer.CUSTOMER_NAME %></h2>
       </div>
       <div class="form-container">
         <h2>ID:</h2>
-        <h2 class="field">123</h2>
+        <h2 class="field"><%= customer.CUSTOMER_ID %></h2>
       </div>
       <div class="form-container">
         <h2>Ph #:</h2>
-        <h2 class="field">(123)-456 7890</h2>
+        <h2 class="field"><%= customer.PHONE_NUMBER %></h2>
       </div>
       <div class="form-container">
         <h2>Orders:</h2>
-        <h2 class="field">
-          it says "int" but idk what to value will be stored here
-        </h2>
+        <h2 class="field">n/a</h2>
       </div>
       <div class="button-container">
         <button type="button" onclick="window.location.href= '/'">Home</button>
