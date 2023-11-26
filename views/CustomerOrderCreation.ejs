@@ -2,60 +2,38 @@
 <html>
   <head>
     <title>Customer Order Creation</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
   </head>
   <body>
     <h1>Place New Order</h1>
+    <form></form>
     <form name="form1" id="form1" action="/action_page.php">
+      Customer Name
+      <input
+        type="text"
+        id="customer-name"
+        name="customer-name"
+        placeholder="Temoc"
+      />
+      <br /><br />
       Select Menu Item:
       <select name="menu-item" id="menu-item">
-        <option value="Chicken Alfredo" selected="selected">
-          Chicken Alfredo
-        </option>
-        <option value="Salad" selected="selected">Salad</option>
-        <option value="Spaghetti and Meatballs" selected="selected">
-          Spaghetti and Meatballs
-        </option>
-        <option value="Chicken Parmesan" selected="selected">
-          Chicken Parmesan
-        </option>
-        <option value="Chicken Marsala" selected="selected">
-          Chicken Marsala
-        </option>
-        <option value="Vanilla Ice Cream" selected="selected">
-          Vanilla Ice Cream
-        </option>
+        <option value="Chicken Alfredo">Chicken Alfredo</option>
+        <option value="Salad">Salad</option>
+        <option value="Spaghetti and Meatballs">Spaghetti and Meatballs</option>
+        <option value="Chicken Parmesan">Chicken Parmesan</option>
+        <option value="Chicken Marsala">Chicken Marsala</option>
+        <option value="Vanilla Ice Cream">Vanilla Ice Cream</option>
       </select>
       <br /><br />
-      <button type="button" onclick="placeOrder()">Confirm Order</button>
+      <button type="button" onclick="createOrder()">Confirm Order</button>
     </form>
     <script>
-      async function placeOrder() {
+      function createOrder() {
+        const customerName = document.getElementById("customer-name").value;
         const menuItem = document.getElementById("menu-item").value;
-        const mysql = require("mysql2/promise");
-        const pool = mysql.createPool({
-          host: process.env.DB_HOST,
-          user: process.env.DB_USER,
-          password: process.env.DB_PASSWORD,
-          database: process.env.DB_NAME,
-        });
-        const connection = await pool.getConnection();
-        const sqlMenuItemID =
-          "SELECT MENU_ITEM_ID FROM MENU_ITEMS WHERE MENU_ITEM_NAME = ?";
-
-        const [rows, fields] = await connection.query(sqlMenuItemID, [
-          menuItem,
-        ]);
-
-        const sqlInsertCustomerOrder =
-          "INSERT INTO CUSTOMER_ORDERED_ITEMS (CUSTOMER_ID, MENU_ID) VALUES(1, ?)";
-
-        const [rows1, fields1] = await connection.query(
-          sqlInsertCustomerOrder,
-          [rows[0]]
-        );
-
-        console.log(rows[0]);
-        console.log("COMPLETED");
+        window.location.href =
+          "/CustomerOrderCreation/" + customerName + "/" + menuItem;
       }
     </script>
   </body>

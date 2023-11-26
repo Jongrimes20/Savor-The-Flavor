@@ -164,6 +164,40 @@ app.get("/NewCustomer/:custName/:custPhNum/:custPwrd", async (req, res) => {
   }
 });
 
+app.get("/CustomerOrderCreation/:customerName/:menuItem", async (req, res) => {
+  let customerName = req.params.customerName;
+  let menuItem = req.params.menuItem;
+  let connection;
+  try {
+    connection = await pool.getConnection();
+    const sqlMenuItemID = "SELECT MENU_ITEM_ID FROM MENU_ITEMS WHERE MENU_ITEM_NAME = ?";
+
+    const [rows, fields] = await connection.query(sqlMenuItemID, [menuItem]);
+    console.log("MENU_ITEM_ID FROM sqlMenuItemID: " + rows[0].MENU_ITEM_ID);
+
+    const sqlCustomerID = "SELECT CUSTOMER_ID FROM CUSTOMER_INFORMATION WHERE CUSTOMER_NAME = ?";
+    const [rows1, fields1] = await connection.query(sqlCustomerID, [customerName]);
+    console.log("CUSTOMER_ID: " + rows1[0].CUSTOMER_ID);
+    const sqlInsertCustomerOrder =
+      "INSERT INTO CUSTOMER_ORDERED_ITEMS (CUSTOMER_ID, MENU_ITEM_ID) VALUES(?, ?)";
+    
+    await connection.query(
+      sqlInsertCustomerOrder,
+      [rows1[0].CUSTOMER_ID, rows[0].MENU_ITEM_ID]
+    );
+    res.redirect("/CustomerLogin");
+    return;
+  }
+  catch (error) {
+    throw error;
+  }
+  finally {
+    if (connection) {
+      connection.release();
+    }
+  }
+})
+
 // Listen on port PORT
 app.listen(PORT, async () => {
   console.info(`Listening on port ${PORT}`);
