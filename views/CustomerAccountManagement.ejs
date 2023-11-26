@@ -14,7 +14,7 @@
         <input
           type="text"
           id="customerName"
-          placeholder="<%customer.CUSTOMER_NAME%>"
+          value="<%customer.CUSTOMER_NAME%>"
         />
       </div>
 
@@ -31,7 +31,7 @@
         <input
           type="text"
           id="customerPhNumber"
-          placeholder="<%customer.PHONE_NUMBER%>"
+          value="<%customer.PHONE_NUMBER%>"
         />
       </div>
 
@@ -40,7 +40,7 @@
         <input
           type="text"
           id="customerPassword"
-          placeholder="<%customer.CUSTOMER_PASSWORD%>"
+          value="<%customer.CUSTOMER_PASSWORD%>"
         />
       </div>
       
@@ -60,6 +60,7 @@
     </form>
     <script>
       function updateCustomerInformation() {
+        const customerID = <%customer.CUSTOMER_ID%>;  //idk how to call this
         const customerName = document.getElementById("customerName").value;
         const customerPhNumber = document.getElementById("customerPhNumber").value;
         const customerPwrd = document.getElementById("customerPassword").value;
@@ -67,7 +68,7 @@
         //maybe post alert of items that will be changed
 
         //execute query in app.js
-        window.location.href = "/CustomerAccountManagment/" + customerName + "/" + customerPhNumber + "/" + customerPwrd;
+        window.location.href = "/CustomerAccountManagment/" + customerID + "/" + customerName + "/" + customerPhNumber + "/" + customerPwrd;
       }
     </script>
   </body>
