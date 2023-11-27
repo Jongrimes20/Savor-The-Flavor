@@ -28,7 +28,7 @@
 
       <div class="button-container">
         <!--Back to homepage-->
-        <button type="button" onclick="window.location.href= '/CustomerLogin'">
+        <button type="button" onclick="goToHompage()">
           Back
         </button>
         <!--Submit Chnages to customer-->
@@ -52,6 +52,11 @@
         // console.log("PASCODE: " + customerId);
         window.location.href =
           "/CustomerAccountManagement/" + <%=customer.CUSTOMER_ID%>;
+      }
+
+      function goToHompage() {
+        const customerID = <%= customer.CUSTOMER_ID%>;
+        window.location.href = "/CustomerHomepage/" + customerID;
       }
     </script>
   </body>

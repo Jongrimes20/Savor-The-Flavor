@@ -89,6 +89,30 @@ app.get("/CustomerAccountManagement/:id", async (req, res) => {
   }
 });
 
+app.get("/CustomerAccountManagment/:custId/:custName/:custPhNum/:custPwrd",
+  async (req, res) => {
+    let custId = req.params.custId;
+    let custName = req.params.custName;
+    let custPhNum = req.params.custPhNum;
+    let custPwrd = req.params.custPwrd;
+    let connection;
+    console.log(req.params);
+    try {
+      connection = await pool.getConnection();
+      const sql = 
+      "UPDATE CUSTOMER_INFORMATION SET CUSTOMER_NAME = ?, PHONE_NUMBER = ?, CUSTOMER_PASSWORD = ? WHERE CUSTOMER_ID = ?";
+      await connection.query(sql, [custName, custPhNum, custPwrd, custId]);
+    } catch (error) {
+      throw error;
+    } finally {
+      connection.release();
+    }
+    //query works
+    //should just essentially reload the page with new info
+    res.redirect(`/CustomerAccountManagement?=id=${custId}`);
+  }
+);
+
 app.get("/CustomerHomepage", async (req, res) => {
   try {
     // Get a connection from the pool
@@ -101,6 +125,26 @@ app.get("/CustomerHomepage", async (req, res) => {
     } else {
       res.redirect("/CustomerLogin");
     }
+  } catch (error) {
+    // Handle errors
+    throw error;
+  } finally {
+    // Release the connection back to the pool
+    if (connection) {
+      connection.release();
+    }
+  }
+});
+
+app.get("/CustomerHomepage/:custId", async (req, res) => {
+  try {
+    let custId = req.params.custId;
+    // Get a connection from the pool
+    connection = await pool.getConnection();
+    const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
+    // Run your query
+    const [rows, fields] = await connection.query(sql, [custId]);
+    res.render("CustomerHomepage", { customer: rows[0] });
   } catch (error) {
     // Handle errors
     throw error;
@@ -355,30 +399,7 @@ app.get("/CustomerOrderCreation/:orderStatus", async (req, res) => {
   }
 });
 
-app.get(
-  "/CustomerAccountManagment/:custId/:custName/:custPhNum/:custPwrd",
-  async (req, res) => {
-    let custId = req.params.custId;
-    let custName = req.params.custName;
-    let custPhNum = req.params.custPhNum;
-    let custPwrd = req.params.custPwrd;
-    let connection;
-    console.log(req.params);
-    try {
-      connection = await pool.getConnection();
-      const sql =
-        "UPDATE CUSTOMER_INFORMATION SET CUSTOMER_NAME = ?, PHONE_NUMBER = ?, CUSTOMER_PASSWORD = ? WHERE CUSTOMER_ID = ?";
-      await connection.query(sql, [custName, custPhNum, custPwrd, custId]);
-    } catch (error) {
-      throw error;
-    } finally {
-      //should just essentially reload the page with new info
-      // res.redirect(`/CustomerAccountManagment?id=${custId}`);
-      res.redirect(`/CustomerLogin`);
-      connection.release();
-    }
-  }
-);
+
 
 // Listen on port PORT
 app.listen(PORT, async () => {
