@@ -2,20 +2,20 @@
 <html>
   <head>
     <title>Welcome <%= customer.CUSTOMER_NAME %></title>
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
   </head>
   <body>
     <h1><%= customer.CUSTOMER_NAME %>'s Homepage</h1>
     <div class="button-container">
       <button
         type="button"
-        onclick="window.location.href = '/CustomerOrderCreation';"
+        onclick="window.location.href = '/CustomerOrderCreation?id=<%=customer.CUSTOMER_ID%>';"
       >
         Place New Order
       </button>
       <button
         type="button"
-        onclick="window.location.href = '/CustomerOrderHistory';"
+        onclick="window.location.href = '/CustomerOrderHistory?id=<%=customer.CUSTOMER_ID%>';"
       >
         View Order History
       </button>
@@ -35,11 +35,12 @@
         // Extract the customer ID from the queryParams object
         const customerId = queryParams.id;
 
-        // console.log("CUSTOMER_ID: " + customerId);
+        // console.log("CUSTOMER_ID: " + <%=customer.CUSTOMER_ID%>);
         // const customerObject = JSON.parse(id);
         // const customerId = customerObject.CUSTOMER_ID;
         // console.log("PASCODE: " + customerId);
-        window.location.href = "/CustomerAccountManagement?id=" + customerId;
+        window.location.href =
+          "/CustomerAccountManagement/" + <%=customer.CUSTOMER_ID%>;
       }
     </script>
   </body>

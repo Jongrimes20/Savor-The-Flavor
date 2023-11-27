@@ -4,37 +4,50 @@
     <title>Customer Order Creation</title>
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
     <script defer>
-      // your-script.js
-      window.onload = function () {
-        // Check if the current page URL matches the specific page
-        if (window.location.href.endsWith("/duplicate")) {
-          // Show an alert when the specific page is loaded
+      const orderStatus = "<%= url %>"; // Replace with the correct variable name
+
+      // Check the value of orderStatus
+      switch (orderStatus) {
+        case "duplicate":
           alert("You can only place a new order once!");
-          window.location.href = "/CustomerOrderCreation";
-        } else if (window.location.href.endsWith("/saved")) {
-          // Show an alert when the specific page is loaded
+          window.location.href = "/CustomerLogin";
+          break;
+        case "saved":
           alert("Order has been saved!");
-          window.location.href = "/CustomerOrderCreation";
-        } else if (window.location.href.endsWith("/NOTFOUND")) {
-          // Show an alert when the specific page is loaded
+          window.location.href = "/CustomerLogin";
+          break;
+        case "NOTFOUND":
           alert("Cannot find Customer");
-          window.location.href = "/CustomerOrderCreation";
-        }
-      };
+          window.location.href = "/CustomerLogin";
+          break;
+        default:
+          // Handle other cases or do nothing
+          break;
+      }
+      // // your-script.js
+      // window.onload = function () {
+      //   // const pathname = new URL(window.location.href).pathname;
+      //   // Check if the current page URL matches the specific page
+      //   if (window.location.href.endsWith("/duplicate")) {
+      //     // Show an alert when the specific page is loaded
+      //     alert("You can only place a new order once!");
+      //     window.location.href = "/CustomerOrderCreation";
+      //   } else if (window.location.href.endsWith("/saved")) {
+      //     // Show an alert when the specific page is loaded
+      //     alert("Order has been saved!");
+      //     window.location.href = "/CustomerOrderCreation";
+      //   } else if (window.location.href.endsWith("/NOTFOUND")) {
+      //     // Show an alert when the specific page is loaded
+      //     alert("Cannot find Customer");
+      //     window.location.href = "/CustomerOrderCreation";
+      //   }
+      // };
     </script>
   </head>
   <body>
     <h1>Place New Order</h1>
 
     <form name="form1" id="form1">
-      Customer Name
-      <input
-        type="text"
-        id="customer-name"
-        name="customer-name"
-        placeholder="Temoc"
-      />
-      <br /><br />
       Select Menu Item:
       <select name="menu-item" id="menu-item">
         <option value="" disabled selected>Select a Menu Item</option>
@@ -45,20 +58,28 @@
         <option value="Chicken Marsala">Chicken Marsala</option>
         <option value="Vanilla Ice Cream">Vanilla Ice Cream</option>
       </select>
-      <br /><br />
-      <button type="button" onclick="createOrder()">Confirm Order</button>
+      <br />
+      <div class="button-container">
+        <button
+          type="button"
+          onclick="window.location.href='CustomerHomepage?id=<%=customer.CUSTOMER_ID%>'"
+        >
+          Back
+        </button>
+        <button type="button" onclick="createOrder()">Confirm Order</button>
+      </div>
     </form>
     <script>
       function createOrder() {
-        const customerName = document.getElementById("customer-name").value;
+        const customerID = <%=customer.CUSTOMER_ID%>;
         const menuItem = document.getElementById("menu-item").value;
-        if (customerName == "" || menuItem == "") {
+        if (menuItem == "") {
           alert("Name and Menu cannot be left empty!");
           return;
         }
         // console.log("mITEM: " + menuItem);
         window.location.href =
-          "/CustomerOrderCreation/" + customerName + "/" + menuItem;
+          "/CustomerOrderCreation/" + customerID + "/" + menuItem;
       }
     </script>
   </body>

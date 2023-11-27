@@ -3,7 +3,7 @@
   <head>
     <title><%= customer.CUSTOMER_NAME %>'s Account Managment</title>
     <!--Links html to css-->
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
   </head>
   <body>
     <h1><%= customer.CUSTOMER_NAME %>'s Account Managment</h1>
@@ -14,10 +14,9 @@
         <input
           type="text"
           id="customerName"
-          value="<%customer.CUSTOMER_NAME%>"
+          placeholder="<%=customer.CUSTOMER_NAME%>"
         />
       </div>
-
 
       <!-- ID Doesn't need to be public info does it?-->
       <!-- <div class="form-container">
@@ -31,39 +30,41 @@
         <input
           type="text"
           id="customerPhNumber"
-          value="<%customer.PHONE_NUMBER%>"
+          placeholder="<%=customer.PHONE_NUMBER%>"
         />
       </div>
 
       <div class="form-container">
         <h2>Password</h2>
-        <input
-          type="text"
-          id="customerPassword"
-          value="<%customer.CUSTOMER_PASSWORD%>"
-        />
+        <input type="text" id="customerPassword" placeholder="new password" />
       </div>
-      
+
       <!--Orders Available in Order History-->
       <!-- <div class="form-container">
         <h2>Orders:</h2>
         <h2 class="field">n/a</h2>
       </div> -->
 
-      
       <div class="button-container">
         <!--Back to homepage-->
         <button type="button" onclick="window.location.href= '/'">Home</button>
         <!--Submit Chnages to customer-->
-        <button type="button" onclick="updateCustomerInformation()">Submit Changes</button>
+        <button type="button" onclick="updateCustomerInformation()">
+          Submit Changes
+        </button>
       </div>
     </form>
     <script>
       function updateCustomerInformation() {
-        const customerID = <%customer.CUSTOMER_ID%>;  //idk how to call this
+        const customerID = <%= customer.CUSTOMER_ID%>;  //idk how to call this
         const customerName = document.getElementById("customerName").value;
         const customerPhNumber = document.getElementById("customerPhNumber").value;
         const customerPwrd = document.getElementById("customerPassword").value;
+
+        if (customerName=="" || customerPhNumber == "" || customerPwrd == ""){
+          alert("You need to fill in all the details!");
+          return;
+        }
 
         //maybe post alert of items that will be changed
 

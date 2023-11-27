@@ -1,9 +1,58 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Customer Order History</title>
-    </head>
-    <body>
-        <h1>Your Order History</h1>
-    </body>
+  <head>
+    <title>Welcome <%= customer.CUSTOMER_NAME %></title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+  </head>
+  <body>
+    <h1>Order History for <%= customer.CUSTOMER_NAME %></h1>
+    <form>
+      <!--Customer Name-->
+      <div class="form-container">
+        
+
+      <!-- ID Doesn't need to be public info does it?-->
+      <!-- <div class="form-container">
+          <h2>ID:</h2>
+          <h2 class="field"><%= customer.CUSTOMER_ID %></h2>
+        </div> -->
+
+      <!--Phone Number-->
+      
+
+      <!--Orders Available in Order History-->
+      <!-- <div class="form-container">
+          <h2>Orders:</h2>
+          <h2 class="field">n/a</h2>
+        </div> -->
+
+      <div class="button-container">
+        <!--Back to homepage-->
+        <button type="button" onclick="window.location.href= '/CustomerLogin'">
+          Back
+        </button>
+        <!--Submit Chnages to customer-->
+      </div>
+    </form>
+    <!--Links to Create New Order, Order HIstory, Account Managnment-->
+    <script>
+      function manageAcctPage() {
+        // Get the URL query parameters
+        const urlSearchParams = new URLSearchParams(window.location.search);
+
+        // Convert the URL query parameters to a plain object
+        const queryParams = Object.fromEntries(urlSearchParams.entries());
+
+        // Extract the customer ID from the queryParams object
+        const customerId = queryParams.id;
+
+        // console.log("CUSTOMER_ID: " + <%=customer.CUSTOMER_ID%>);
+        // const customerObject = JSON.parse(id);
+        // const customerId = customerObject.CUSTOMER_ID;
+        // console.log("PASCODE: " + customerId);
+        window.location.href =
+          "/CustomerAccountManagement/" + <%=customer.CUSTOMER_ID%>;
+      }
+    </script>
+  </body>
 </html>

@@ -44,6 +44,10 @@ app.get("", (req, res) => {
   res.render("index");
 });
 
+app.get("", (req, res) => {
+  res.render("index");
+});
+
 app.get("/CustomerAccountManagement", async (req, res) => {
   try {
     // Get a connection from the pool
@@ -51,6 +55,28 @@ app.get("/CustomerAccountManagement", async (req, res) => {
     const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
     // Run your query
     const [rows, fields] = await connection.query(sql, [req.query.id]);
+    // console.log("PIECE OUT!" + req.query.id + rows);
+    res.render("CustomerAccountManagement", { customer: rows[0] });
+  } catch (error) {
+    // Handle errors
+    throw error;
+  } finally {
+    // Release the connection back to the pool
+    if (connection) {
+      connection.release();
+    }
+  }
+});
+
+app.get("/CustomerAccountManagement/:id", async (req, res) => {
+  // console.log("POOL");
+  try {
+    // Get a connection from the pool
+    connection = await pool.getConnection();
+    const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
+    // Run your query
+    const [rows, fields] = await connection.query(sql, [req.params.id]);
+    // console.log("PIECE OUT!" + req.query.id + rows);
     res.render("CustomerAccountManagement", { customer: rows[0] });
   } catch (error) {
     // Handle errors
@@ -70,7 +96,11 @@ app.get("/CustomerHomepage", async (req, res) => {
     const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
     // Run your query
     const [rows, fields] = await connection.query(sql, [req.query.id]);
-    res.render("CustomerHomePage", { customer: rows[0] });
+    if (rows.length == 1) {
+      res.render("CustomerHomepage", { customer: rows[0] });
+    } else {
+      res.redirect("/CustomerLogin");
+    }
   } catch (error) {
     // Handle errors
     throw error;
@@ -115,11 +145,69 @@ app.get("/CustomerLogin/:phNum/:pwd", async (req, res) => {
   }
 });
 
-app.get("/CustomerOrderCreation", (req, res) => {
-  res.render("CustomerOrderCreation");
-});
-app.get("/CustomerOrderHistory", (req, res) => {
+// app.get("/CustomerOrderCreation", async (req, res) => {
+//   // console.log("COID: " + req.query.id);
+//   try {
+//     // Get a connection from the pool
+//     connection = await pool.getConnection();
+//     const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
+//     // Run your query
+//     const [rows, fields] = await connection.query(sql, [req.query.id]);
+//     res.render("CustomerOrderCreation", { customer: rows[0], url: "start" });
+//   } catch (error) {
+//     // Handle errors
+//     throw error;
+//   } finally {
+//     // Release the connection back to the pool
+//     if (connection) {
+//       connection.release();
+//     }
+//   }
+// });
+
+app.get("/CustomerOrderHistory", async (req, res) => {
+  // console.log("POOL");
+  try {
+    // Get a connection from the pool
+    connection = await pool.getConnection();
+    const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
+    // Run your query
+    const [rows, fields] = await connection.query(sql, [req.query.id]);
+    // console.log("PIECE OUT!" + req.query.id + rows);
+    res.render("CustomerOrderHistory", { customer: rows[0] });
+  } catch (error) {
+    // Handle errors
+    throw error;
+  } finally {
+    // Release the connection back to the pool
+    if (connection) {
+      connection.release();
+    }
+  }
   res.render("CustomerOrderHistory");
+});
+
+app.get("/CustomerOrderHistory/:jsonObj", async (req, res) => {
+  // console.log("POOL");
+  // TODO
+  // try {
+  //   // Get a connection from the pool
+  //   connection = await pool.getConnection();
+  //   const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
+  //   // Run your query
+  //   const [rows, fields] = await connection.query(sql, [req.query.jsonObj]);
+  //   // console.log("PIECE OUT!" + req.query.id + rows);
+  //   res.render("CustomerOrderHistory", { customer: rows[0] });
+  // } catch (error) {
+  //   // Handle errors
+  //   throw error;
+  // } finally {
+  //   // Release the connection back to the pool
+  //   if (connection) {
+  //     connection.release();
+  //   }
+  // }
+  // res.render("CustomerOrderHistory");
 });
 
 app.get("/EmployeeLogin", (req, res) => {
@@ -143,9 +231,12 @@ app.get("/NewCustomer/:custName/:custPhNum/:custPwrd", async (req, res) => {
   try {
     connection = await pool.getConnection();
     //Insert into DB
-    const sql =
-      "INSERT INTO CUSTOMER_INFORMATION(PHONE_NUMBER, CUSTOMER_NAME, CUSTOMER_PASSWORD) VALUES(?,?,?)";
-    await connection.query(sql, [custPhNum, custName, custPwrd]);
+    let sql = "SELECT * FROM CUSTOMER_INFORMATION";
+    const [def, _] = await connection.query(sql);
+    let cid = def[def.length - 1].CUSTOMER_ID + 1;
+    sql =
+      "INSERT INTO CUSTOMER_INFORMATION(PHONE_NUMBER, CUSTOMER_NAME, CUSTOMER_PASSWORD, CUSTOMER_ID) VALUES(?,?,?,?)";
+    await connection.query(sql, [custPhNum, custName, custPwrd, cid]);
 
     //Retrieve newley added account
     const sql2 =
@@ -153,7 +244,7 @@ app.get("/NewCustomer/:custName/:custPhNum/:custPwrd", async (req, res) => {
     const [rows, fields] = await connection.query(sql2, [custPhNum, custPwrd]);
 
     console.log(rows[0]);
-    res.redirect(`/CustomerHomepage?id=${rows[rows.length-1].CUSTOMER_ID}`);
+    res.redirect(`/CustomerHomepage?id=${rows[rows.length - 1].CUSTOMER_ID}`);
     return;
   } catch (error) {
     //catch error
@@ -166,10 +257,11 @@ app.get("/NewCustomer/:custName/:custPhNum/:custPwrd", async (req, res) => {
   }
 });
 
-app.get("/CustomerOrderCreation/:customerName/:menuItem", async (req, res) => {
-  let customerName = req.params.customerName;
+app.get("/CustomerOrderCreation/:customerID/:menuItem", async (req, res) => {
+  console.log("COID2: " + req.query.id);
+  let customerID = req.params.customerID;
   let menuItem = req.params.menuItem;
-  console.log("CUSTOMER NAME: " + customerName);
+  // console.log("CUSTOMER NAME: " + customerName);
   let connection;
   try {
     connection = await pool.getConnection();
@@ -179,17 +271,17 @@ app.get("/CustomerOrderCreation/:customerName/:menuItem", async (req, res) => {
     const [rows, fields] = await connection.query(sqlMenuItemID, [menuItem]);
 
     if (rows.length != 1) {
-      res.redirect("/CustomerOrderCreation");
+      res.render("CustomerOrderCreation", { customer: rows[0], url: "start" });
     } else {
-      console.log("MENU_ITEM_ID FROM sqlMenuItemID: " + rows[0].MENU_ITEM_ID);
-      console.log(rows);
+      // console.log("MENU_ITEM_ID FROM sqlMenuItemID: " + rows[0].MENU_ITEM_ID);
+      // console.log(rows);
       const sqlCustomerID =
-        "SELECT CUSTOMER_ID FROM CUSTOMER_INFORMATION WHERE CUSTOMER_NAME = ?";
+        "SELECT CUSTOMER_ID FROM CUSTOMER_INFORMATION WHERE CUSTOMER_ID = ?";
       const [rows1, fields1] = await connection.query(sqlCustomerID, [
-        customerName,
+        customerID,
       ]);
       if (rows1.length == 1) {
-        console.log("CUSTOMER_ID: " + rows1[0].CUSTOMER_ID);
+        // console.log("CUSTOMER_ID: " + rows1[0].CUSTOMER_ID);
 
         const searchDuplicate =
           "SELECT * FROM CUSTOMER_ORDERED_ITEMS WHERE CUSTOMER_ID = ? AND MENU_ITEM_id = ?";
@@ -210,12 +302,21 @@ app.get("/CustomerOrderCreation/:customerName/:menuItem", async (req, res) => {
 
             return;
           }
-          res.redirect("/CustomerOrderCreation/saved");
+          res.render("CustomerOrderCreation", {
+            customer: rows[0],
+            url: "saved",
+          });
         } else if (duprows.length >= 1) {
-          res.redirect("/CustomerOrderCreation/duplicate");
+          res.render("CustomerOrderCreation", {
+            customer: rows[0],
+            url: "duplicate",
+          });
         }
       } else {
-        res.redirect("/CustomerOrderCreation/NOTFOUND");
+        res.render("CustomerOrderCreation", {
+          customer: rows[0],
+          url: "NOTFOUND",
+        });
       }
     }
 
@@ -230,31 +331,34 @@ app.get("/CustomerOrderCreation/:customerName/:menuItem", async (req, res) => {
 });
 
 app.get("/CustomerOrderCreation/:orderStatus", async (req, res) => {
-  res.render("CustomerOrderCreation");
+  // console.log("COID: 3" + req.query.id);
+  res.render("CustomerOrderCreation", { url: req.params.orderStatus });
 });
 
-app.get("/CustomerAccountManagment/:custId/:custName/:custPhNum/:custPwrd", async (req, res) => {
-  let custId = req.params.custId;
-  let custName = req.params.custName;
-  let custPhNum = req.params.custPhNum;
-  let custPwrd = req.params.custPwrd;
-  let connection;
-
-  try {
-    connection  = await pool.getConnection();
-
-    const sql = "UPDATE CUSTOMER_INFORMATION SET CUSTOMER_NAME = ?, PHONE_NUMBER = ?, CUSTOMER_PASSWORD = ? WHERE CUSTOMER_ID = ?";
-    await connection.query(sql, [custName,custPhNum,custPwrd,custId]);
-
-    //should just essentially reload the page with new info
-    res.redirect(`/CustomerAccountManagment?id=${custId}`);
-
-  } catch(error) {
-    throw error;
-  } finally {
-    connection.release();
+app.get(
+  "/CustomerAccountManagment/:custId/:custName/:custPhNum/:custPwrd",
+  async (req, res) => {
+    let custId = req.params.custId;
+    let custName = req.params.custName;
+    let custPhNum = req.params.custPhNum;
+    let custPwrd = req.params.custPwrd;
+    let connection;
+    console.log(req.params);
+    try {
+      connection = await pool.getConnection();
+      const sql =
+        "UPDATE CUSTOMER_INFORMATION SET CUSTOMER_NAME = ?, PHONE_NUMBER = ?, CUSTOMER_PASSWORD = ? WHERE CUSTOMER_ID = ?";
+      await connection.query(sql, [custName, custPhNum, custPwrd, custId]);
+    } catch (error) {
+      throw error;
+    } finally {
+      //should just essentially reload the page with new info
+      // res.redirect(`/CustomerAccountManagment?id=${custId}`);
+      res.redirect(`/CustomerLogin`);
+      connection.release();
+    }
   }
-});
+);
 
 // Listen on port PORT
 app.listen(PORT, async () => {
