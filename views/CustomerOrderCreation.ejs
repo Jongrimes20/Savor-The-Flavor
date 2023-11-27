@@ -62,7 +62,7 @@
       <div class="button-container">
         <button
           type="button"
-          onclick="window.location.href='CustomerHomepage?id=<%=customer.CUSTOMER_ID%>'"
+          onclick="goToHomepage()"
         >
           Back
         </button>
@@ -80,6 +80,11 @@
         // console.log("mITEM: " + menuItem);
         window.location.href =
           "/CustomerOrderCreation/" + customerID + "/" + menuItem;
+      }
+
+      function goToHompage() {
+        const customerID = <%= customer.CUSTOMER_ID%>;
+        window.location.href = "/CustomerHomepage/" + customerID;
       }
     </script>
   </body>
