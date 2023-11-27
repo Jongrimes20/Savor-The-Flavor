@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 // const { connect } = require("./routes/postRoutes");
 const mysql = require("mysql2/promise");
-const { connect } = require("./routes/postRoutes");
+const { connect, search } = require("./routes/postRoutes");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const PERMANENT_REDIRECT = 301;
@@ -18,9 +18,9 @@ const pool = mysql.createPool({
 // Static Files
 app.use(express.json());
 app.use(express.static("public"));
-app.use("/css", express.static(__dirname + "public/css"));
-app.use("/js", express.static(__dirname + "public/js"));
-app.use("/img", express.static(__dirname + "public/img"));
+app.use("/css", express.static(__dirname + "/public/css"));
+app.use("/js", express.static(__dirname + "/public/js"));
+app.use("/img", express.static(__dirname + "/public/img"));
 app.use("/models", express.static("models"));
 app.use("/config", express.static("config"));
 app.use("/posts", require("./routes/postRoutes"));
@@ -143,18 +143,20 @@ app.get("/NewCustomer/:custName/:custPhNum/:custPwrd", async (req, res) => {
   try {
     connection = await pool.getConnection();
     //Insert into DB
-    const sql = "INSERT INTO CUSTOMER_INFORMATION(PHONE_NUMBER, CUSTOMER_NAME, CUSTOMER_PASSWORD) VALUES(?,?,?)";
+    const sql =
+      "INSERT INTO CUSTOMER_INFORMATION(PHONE_NUMBER, CUSTOMER_NAME, CUSTOMER_PASSWORD) VALUES(?,?,?)";
     await connection.query(sql, [custPhNum, custName, custPwrd]);
 
     //Retrieve newley added account
-    const sql2 = "SELECT * FROM CUSTOMER_INFORMATION WHERE PHONE_NUMBER = ? AND CUSTOMER_PASSWORD =?";
-    const[rows, fields] = await connection.query(sql2, [custPhNum, custPwrd]);
+    const sql2 =
+      "SELECT * FROM CUSTOMER_INFORMATION WHERE PHONE_NUMBER = ? AND CUSTOMER_PASSWORD =?";
+    const [rows, fields] = await connection.query(sql2, [custPhNum, custPwrd]);
 
     console.log(rows[0]);
-    res.redirect(`/CustomerHomepage?id=${rows[rows.length-1].CUSTOMER_ID}`);
+    res.redirect(`/CustomerHomepage?id=${rows[rows.length - 1].CUSTOMER_ID}`);
     return;
-
-  } catch(error) { //catch error
+  } catch (error) {
+    //catch error
     throw error;
   } finally {
     //relase connection back to pool
@@ -167,36 +169,69 @@ app.get("/NewCustomer/:custName/:custPhNum/:custPwrd", async (req, res) => {
 app.get("/CustomerOrderCreation/:customerName/:menuItem", async (req, res) => {
   let customerName = req.params.customerName;
   let menuItem = req.params.menuItem;
+  console.log("CUSTOMER NAME: " + customerName);
   let connection;
   try {
     connection = await pool.getConnection();
-    const sqlMenuItemID = "SELECT MENU_ITEM_ID FROM MENU_ITEMS WHERE MENU_ITEM_NAME = ?";
+    const sqlMenuItemID =
+      "SELECT MENU_ITEM_ID FROM MENU_ITEMS WHERE MENU_ITEM_NAME = ?";
 
     const [rows, fields] = await connection.query(sqlMenuItemID, [menuItem]);
-    console.log("MENU_ITEM_ID FROM sqlMenuItemID: " + rows[0].MENU_ITEM_ID);
 
-    const sqlCustomerID = "SELECT CUSTOMER_ID FROM CUSTOMER_INFORMATION WHERE CUSTOMER_NAME = ?";
-    const [rows1, fields1] = await connection.query(sqlCustomerID, [customerName]);
-    console.log("CUSTOMER_ID: " + rows1[0].CUSTOMER_ID);
-    const sqlInsertCustomerOrder =
-      "INSERT INTO CUSTOMER_ORDERED_ITEMS (CUSTOMER_ID, MENU_ITEM_ID) VALUES(?, ?)";
-    
-    await connection.query(
-      sqlInsertCustomerOrder,
-      [rows1[0].CUSTOMER_ID, rows[0].MENU_ITEM_ID]
-    );
-    res.redirect("/CustomerLogin");
+    if (rows.length != 1) {
+      res.redirect("/CustomerOrderCreation");
+    } else {
+      console.log("MENU_ITEM_ID FROM sqlMenuItemID: " + rows[0].MENU_ITEM_ID);
+      console.log(rows);
+      const sqlCustomerID =
+        "SELECT CUSTOMER_ID FROM CUSTOMER_INFORMATION WHERE CUSTOMER_NAME = ?";
+      const [rows1, fields1] = await connection.query(sqlCustomerID, [
+        customerName,
+      ]);
+      if (rows1.length == 1) {
+        console.log("CUSTOMER_ID: " + rows1[0].CUSTOMER_ID);
+
+        const searchDuplicate =
+          "SELECT * FROM CUSTOMER_ORDERED_ITEMS WHERE CUSTOMER_ID = ? AND MENU_ITEM_id = ?";
+        const [duprows, _] = await connection.query(searchDuplicate, [
+          rows1[0].CUSTOMER_ID,
+          rows[0].MENU_ITEM_ID,
+        ]);
+        if (duprows.length == 0) {
+          const sqlInsertCustomerOrder =
+            "INSERT INTO CUSTOMER_ORDERED_ITEMS (CUSTOMER_ID, MENU_ITEM_ID) VALUES(?, ?)";
+          try {
+            await connection.query(sqlInsertCustomerOrder, [
+              rows1[0].CUSTOMER_ID,
+              rows[0].MENU_ITEM_ID,
+            ]);
+          } catch (err) {
+            console.log("ERROR CAUGHT");
+
+            return;
+          }
+          res.redirect("/CustomerOrderCreation/saved");
+        } else if (duprows.length >= 1) {
+          res.redirect("/CustomerOrderCreation/duplicate");
+        }
+      } else {
+        res.redirect("/CustomerOrderCreation/NOTFOUND");
+      }
+    }
+
     return;
-  }
-  catch (error) {
+  } catch (error) {
     throw error;
-  }
-  finally {
+  } finally {
     if (connection) {
       connection.release();
     }
   }
-})
+});
+
+app.get("/CustomerOrderCreation/:orderStatus", async (req, res) => {
+  res.render("CustomerOrderCreation");
+});
 
 // Listen on port PORT
 app.listen(PORT, async () => {
