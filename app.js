@@ -153,7 +153,7 @@ app.get("/NewCustomer/:custName/:custPhNum/:custPwrd", async (req, res) => {
     const [rows, fields] = await connection.query(sql2, [custPhNum, custPwrd]);
 
     console.log(rows[0]);
-    res.redirect(`/CustomerHomepage?id=${rows[rows.length - 1].CUSTOMER_ID}`);
+    res.redirect(`/CustomerHomepage?id=${rows[rows.length-1].CUSTOMER_ID}`);
     return;
   } catch (error) {
     //catch error
@@ -231,6 +231,29 @@ app.get("/CustomerOrderCreation/:customerName/:menuItem", async (req, res) => {
 
 app.get("/CustomerOrderCreation/:orderStatus", async (req, res) => {
   res.render("CustomerOrderCreation");
+});
+
+app.get("/CustomerAccountManagment/:custId/:custName/:custPhNum/:custPwrd", async (req, res) => {
+  let custId = req.params.custId;
+  let custName = req.params.custName;
+  let custPhNum = req.params.custPhNum;
+  let custPwrd = req.params.custPwrd;
+  let connection;
+
+  try {
+    connection  = await pool.getConnection();
+
+    const sql = "UPDATE CUSTOMER_INFORMATION SET CUSTOMER_NAME = ?, PHONE_NUMBER = ?, CUSTOMER_PASSWORD = ? WHERE CUSTOMER_ID = ?";
+    await connection.query(sql, [custName,custPhNum,custPwrd,custId]);
+
+    //should just essentially reload the page with new info
+    res.redirect(`/CustomerAccountManagment?id=${custId}`);
+
+  } catch(error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
 });
 
 // Listen on port PORT

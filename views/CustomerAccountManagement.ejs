@@ -8,25 +8,68 @@
   <body>
     <h1><%= customer.CUSTOMER_NAME %>'s Account Managment</h1>
     <form>
+      <!--Customer Name-->
       <div class="form-container">
         <h2>Name:</h2>
-        <h2 class="field"><%= customer.CUSTOMER_NAME %></h2>
+        <input
+          type="text"
+          id="customerName"
+          value="<%customer.CUSTOMER_NAME%>"
+        />
       </div>
-      <div class="form-container">
+
+
+      <!-- ID Doesn't need to be public info does it?-->
+      <!-- <div class="form-container">
         <h2>ID:</h2>
         <h2 class="field"><%= customer.CUSTOMER_ID %></h2>
-      </div>
+      </div> -->
+
+      <!--Phone Number-->
       <div class="form-container">
         <h2>Ph #:</h2>
-        <h2 class="field"><%= customer.PHONE_NUMBER %></h2>
+        <input
+          type="text"
+          id="customerPhNumber"
+          value="<%customer.PHONE_NUMBER%>"
+        />
       </div>
+
       <div class="form-container">
+        <h2>Password</h2>
+        <input
+          type="text"
+          id="customerPassword"
+          value="<%customer.CUSTOMER_PASSWORD%>"
+        />
+      </div>
+      
+      <!--Orders Available in Order History-->
+      <!-- <div class="form-container">
         <h2>Orders:</h2>
         <h2 class="field">n/a</h2>
-      </div>
+      </div> -->
+
+      
       <div class="button-container">
+        <!--Back to homepage-->
         <button type="button" onclick="window.location.href= '/'">Home</button>
+        <!--Submit Chnages to customer-->
+        <button type="button" onclick="updateCustomerInformation()">Submit Changes</button>
       </div>
     </form>
+    <script>
+      function updateCustomerInformation() {
+        const customerID = <%customer.CUSTOMER_ID%>;  //idk how to call this
+        const customerName = document.getElementById("customerName").value;
+        const customerPhNumber = document.getElementById("customerPhNumber").value;
+        const customerPwrd = document.getElementById("customerPassword").value;
+
+        //maybe post alert of items that will be changed
+
+        //execute query in app.js
+        window.location.href = "/CustomerAccountManagment/" + customerID + "/" + customerName + "/" + customerPhNumber + "/" + customerPwrd;
+      }
+    </script>
   </body>
 </html>
