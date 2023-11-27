@@ -332,7 +332,27 @@ app.get("/CustomerOrderCreation/:customerID/:menuItem", async (req, res) => {
 
 app.get("/CustomerOrderCreation/:orderStatus", async (req, res) => {
   // console.log("COID: 3" + req.query.id);
-  res.render("CustomerOrderCreation", { url: req.params.orderStatus });
+  // section back to the pool
+  try {
+    // Get a connection from the pool
+    connection = await pool.getConnection();
+    const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
+    // Run your query
+    const [rows, fields] = await connection.query(sql, [req.query.id]);
+    // console.log("PIECE OUT!" + req.query.id + rows);
+    res.render("CustomerOrderHistory", {
+      customer: rows[0],
+      url: req.params.orderStatus,
+    });
+  } catch (error) {
+    // Handle errors
+    throw error;
+  } finally {
+    // Release the connection back to the pool
+    if (connection) {
+      connection.release();
+    }
+  }
 });
 
 app.get(
