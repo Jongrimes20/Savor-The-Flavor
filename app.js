@@ -184,7 +184,7 @@ app.get("/CustomerOrderHistory", async (req, res) => {
       connection.release();
     }
   }
-  res.render("CustomerOrderHistory");
+  // res.render("CustomerOrderHistory");
 });
 
 app.get("/CustomerOrderHistory/:jsonObj", async (req, res) => {
@@ -340,7 +340,7 @@ app.get("/CustomerOrderCreation/:orderStatus", async (req, res) => {
     // Run your query
     const [rows, fields] = await connection.query(sql, [req.query.id]);
     // console.log("PIECE OUT!" + req.query.id + rows);
-    res.render("CustomerOrderHistory", {
+    res.render("CustomerOrderCreation", {
       customer: rows[0],
       url: req.params.orderStatus,
     });
