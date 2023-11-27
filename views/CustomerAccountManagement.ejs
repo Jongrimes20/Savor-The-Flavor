@@ -36,10 +36,10 @@
 
       <div class="form-container">
         <h2>Password</h2>
-        <input 
-        type="text" 
-        id="customerPassword" 
-        value="<%=customer.CUSTOMER_PASSWORD%>" 
+        <input
+          type="text"
+          id="customerPassword"
+          value="<%=customer.CUSTOMER_PASSWORD%>"
         />
       </div>
 
@@ -51,7 +51,7 @@
 
       <div class="button-container">
         <!--Back to homepage-->
-        <button type="button" onclick="goToHompage()">Home</button>
+        <button type="button" onclick="goToHompage()">Back</button>
         <!--Submit Chnages to customer-->
         <button type="button" onclick="updateCustomerInformation()">
           Submit Changes
@@ -61,7 +61,7 @@
     <script>
       /**
        * update customer information
-       */ 
+       */
       function updateCustomerInformation() {
         const customerID = <%= customer.CUSTOMER_ID%>;
         const customerName = document.getElementById("customerName").value;
@@ -80,7 +80,7 @@
       }
 
       /**
-       * redirect to customer homepage 
+       * redirect to customer homepage
        */
       function goToHompage() {
         const customerID = <%= customer.CUSTOMER_ID%>;

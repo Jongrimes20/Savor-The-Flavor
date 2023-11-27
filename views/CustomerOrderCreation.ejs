@@ -60,12 +60,7 @@
       </select>
       <br />
       <div class="button-container">
-        <button
-          type="button"
-          onclick="goToHomepage()"
-        >
-          Back
-        </button>
+        <button type="button" onclick="goToHomepage()">Back</button>
         <button type="button" onclick="createOrder()">Confirm Order</button>
       </div>
     </form>
@@ -81,8 +76,7 @@
         window.location.href =
           "/CustomerOrderCreation/" + customerID + "/" + menuItem;
       }
-
-      function goToHompage() {
+      function goToHomepage() {
         const customerID = <%= customer.CUSTOMER_ID%>;
         window.location.href = "/CustomerHomepage/" + customerID;
       }
