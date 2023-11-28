@@ -6,7 +6,9 @@
   </head>
   <body>
     <h1><%= customer.CUSTOMER_NAME %>'s Homepage</h1>
+
     <div class="button-container">
+      <button type="button" onclick="backPage();">Back</button>
       <button
         type="button"
         onclick="window.location.href = '/CustomerOrderCreation/default?id=<%=customer.CUSTOMER_ID%>';"
@@ -41,6 +43,12 @@
         // console.log("PASCODE: " + customerId);
         window.location.href =
           "/CustomerAccountManagement/" + <%=customer.CUSTOMER_ID%>;
+      }
+
+      function backPage() {
+        if (window.confirm("You will be logged out. Do you want to proceed?"))
+          window.location.href = '/CustomerLogin';
+          // else window.location.href = '/CustomerLogin';
       }
     </script>
   </body>

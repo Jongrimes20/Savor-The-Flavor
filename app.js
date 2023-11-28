@@ -1,5 +1,6 @@
 // Imports
 require("dotenv").config();
+const entities = require("entities");
 const express = require("express");
 // const { connect } = require("./routes/postRoutes");
 const mysql = require("mysql2/promise");
@@ -8,6 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const PERMANENT_REDIRECT = 301;
 const TEMPORARY_REDIRECT = 302;
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -69,7 +71,7 @@ app.get("/CustomerAccountManagement", async (req, res) => {
 });
 
 app.get("/CustomerAccountManagement/:id", async (req, res) => {
-  // console.log("POOL");
+  console.log("POOL");
   try {
     // Get a connection from the pool
     connection = await pool.getConnection();
@@ -90,7 +92,7 @@ app.get("/CustomerAccountManagement/:id", async (req, res) => {
 });
 
 app.get(
-  "/CustomerAccountManagment/:custId/:custName/:custPhNum/:custPwrd",
+  "/CustomerAccountManagement/:custId/:custName/:custPhNum/:custPwrd",
   async (req, res) => {
     let custId = req.params.custId;
     let custName = req.params.custName;
@@ -110,7 +112,8 @@ app.get(
     }
     //query works
     //should just essentially reload the page with new info
-    res.redirect(`/CustomerAccountManagement?=id=${custId}`);
+    // console.log("POSTTING");
+    res.redirect(`/CustomerAccountManagement/${custId}`);
   }
 );
 
@@ -212,15 +215,34 @@ app.get("/CustomerLogin/:phNum/:pwd", async (req, res) => {
 // });
 
 app.get("/CustomerOrderHistory", async (req, res) => {
-  // console.log("POOL");
+  console.log("POOL");
   try {
     // Get a connection from the pool
     connection = await pool.getConnection();
-    const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
+
+    var sql = "SELECT * FROM CUSTOMER_INFORMATION WHERE CUSTOMER_ID = ?";
+    const [d, _y] = await connection.query(sql, [req.query.id]);
+    sql =
+      "SELECT MENU_ITEM_ID FROM CUSTOMER_ORDERED_ITEMS WHERE CUSTOMER_ID = ?";
+    //"SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
     // Run your query
     const [rows, fields] = await connection.query(sql, [req.query.id]);
-    // console.log("PIECE OUT!" + req.query.id + rows);
-    res.render("CustomerOrderHistory", { customer: rows[0] });
+    var e = [];
+    for (var i = 0; i < rows.length; i++) {
+      sql = "SELECT MENU_ITEM_NAME FROM MENU_ITEMS WHERE MENU_ITEM_ID = ?";
+      const [menuName, _x] = await connection.query(sql, [
+        rows[i].MENU_ITEM_ID,
+      ]);
+      e.push(menuName[0].MENU_ITEM_NAME);
+    }
+    // rows.array.forEach((element) => {
+    //   e += element + "\n";
+    // });
+    console.log("PIECE OUT!" + JSON.stringify(rows) + "\n" + e);
+    res.render("CustomerOrderHistory", {
+      customer: d[0],
+      len: e,
+    });
   } catch (error) {
     // Handle errors
     throw error;
@@ -279,22 +301,34 @@ app.get("/NewCustomer/:custName/:custPhNum/:custPwrd", async (req, res) => {
     //Insert into DB
     let sql = "SELECT * FROM CUSTOMER_INFORMATION";
     const [def, _] = await connection.query(sql);
-    let cid = def[def.length - 1].CUSTOMER_ID + 1;
     sql =
-      "INSERT INTO CUSTOMER_INFORMATION(PHONE_NUMBER, CUSTOMER_NAME, CUSTOMER_PASSWORD, CUSTOMER_ID) VALUES(?,?,?,?)";
-    await connection.query(sql, [custPhNum, custName, custPwrd, cid]);
+      "SELECT CUSTOMER_ID FROM CUSTOMER_INFORMATION WHERE CUSTOMER_NAME = ?";
+    const [invalid, __] = await connection.query(sql, [custName]);
 
-    //Retrieve newley added account
-    const sql2 =
-      "SELECT * FROM CUSTOMER_INFORMATION WHERE PHONE_NUMBER = ? AND CUSTOMER_PASSWORD =?";
-    const [rows, fields] = await connection.query(sql2, [custPhNum, custPwrd]);
+    if (invalid.length != 0) {
+      res.redirect("/NewCustomer?id=invalid");
+    } else {
+      let cid = def[def.length - 1].CUSTOMER_ID + 1;
+      sql =
+        "INSERT INTO CUSTOMER_INFORMATION(PHONE_NUMBER, CUSTOMER_NAME, CUSTOMER_PASSWORD, CUSTOMER_ID) VALUES(?,?,?,?)";
+      await connection.query(sql, [custPhNum, custName, custPwrd, cid]);
 
-    console.log(rows[0]);
-    res.redirect(`/CustomerHomepage?id=${rows[rows.length - 1].CUSTOMER_ID}`);
-    return;
+      //Retrieve newley added account
+      const sql2 =
+        "SELECT * FROM CUSTOMER_INFORMATION WHERE PHONE_NUMBER = ? AND CUSTOMER_PASSWORD =?";
+      const [rows, fields] = await connection.query(sql2, [
+        custPhNum,
+        custPwrd,
+      ]);
+
+      console.log(rows[0]);
+      res.redirect(`/CustomerHomepage?id=${rows[rows.length - 1].CUSTOMER_ID}`);
+      return;
+    }
   } catch (error) {
     //catch error
-    throw error;
+    // throw error;
+    res.redirect("/NewCustomer?id=toolong");
   } finally {
     //relase connection back to pool
     if (connection) {
@@ -401,11 +435,17 @@ app.get("/CustomerOrderCreation/:orderStatus", async (req, res) => {
   }
 });
 
+app.get("/path-to-testing", async (req, res) => {
+  try {
+    const result = await testing(); // Call your testing function
+    res.json(result); // Send the result back to the client
+  } catch (error) {
+    console.error("Error in testing function:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // Listen on port PORT
 app.listen(PORT, async () => {
   console.info(`Listening on port ${PORT}`);
-  // connection.connect(function (err) {
-  //   if (err) throw err;
-  //   console.log("Database connected!");
-  // });
 });

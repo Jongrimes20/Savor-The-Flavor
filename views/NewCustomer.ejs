@@ -7,6 +7,25 @@
     <title>New Customer</title>
     <!--Links html to css-->
     <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <script>
+      window.onload = function () {
+        const pathname = new URL(window.location.href).pathname;
+        if (
+          pathname.endsWith("/NewCustomer") &&
+          window.location.search === "?id=invalid"
+        ) {
+          alert("Customer with the same name already exists");
+          window.location.href = "/NewCustomer";
+        }
+        if (
+          pathname.endsWith("/NewCustomer") &&
+          window.location.search === "?id=toolong"
+        ) {
+          alert("Invalid Entry. Please Try Again!");
+          window.location.href = "/NewCustomer";
+        }
+      };
+    </script>
   </head>
 
   <body>
@@ -14,29 +33,17 @@
     <form>
       <div class="form-container">
         <h2>Customer Name</h2>
-        <input
-          type="text"
-          id="customerName"
-          placeholder="Enter name"
-        />
+        <input type="text" id="customerName" placeholder="Enter name" />
       </div>
 
       <div class="form-container">
         <h2>Phone Number</h2>
-        <input
-          type="text"
-          id="customerPhNumber"
-          placeholder="Enter phone #"
-        />
+        <input type="text" id="customerPhNumber" placeholder="Enter phone #" />
       </div>
 
       <div class="form-container">
         <h2>Password</h2>
-        <input
-          type="text"
-          id="customerPassword"
-          placeholder="Enter Password"
-        />
+        <input type="text" id="customerPassword" placeholder="Enter Password" />
       </div>
       <div class="form-container">
         <h2>Confirm Password</h2>
@@ -51,7 +58,9 @@
         <button type="button" onclick="window.location.href='/CustomerLogin'">
           Back
         </button>
-        <button type="button" onclick="createNewCustomer()">Create Account</button>
+        <button type="button" onclick="createNewCustomer()">
+          Create Account
+        </button>
       </div>
 
       <p>
@@ -63,22 +72,36 @@
       function createNewCustomer() {
         //get name, phoneNumber, and Password input
         const customerName = document.getElementById("customerName").value;
-        const customerPhNumber = document.getElementById("customerPhNumber").value;
-        const customerPassword = document.getElementById("customerPassword").value;
-        const confirmedPassword = document.getElementById("confirmCustomerPassword").value;
+        const customerPhNumber =
+          document.getElementById("customerPhNumber").value;
+        const customerPassword =
+          document.getElementById("customerPassword").value;
+        const confirmedPassword = document.getElementById(
+          "confirmCustomerPassword"
+        ).value;
         if (customerPassword != confirmedPassword) {
           alert("Make sure passwords match");
           return;
-        }
-        else if (customerName == ""|| customerPhNumber == "" || customerPassword == "" || confirmedPassword == "") {
+        } else if (
+          customerName == "" ||
+          customerPhNumber == "" ||
+          customerPassword == "" ||
+          confirmedPassword == ""
+        ) {
           alert("Make sure to complete each field");
           return;
         }
         /**
          * run query from app.js
          * note - doesn't have customer ID becuase that info will be created during query
-        */
-        window.location.href = "/NewCustomer/" + customerName + "/" + customerPhNumber + "/" + customerPassword;
+         */
+        window.location.href =
+          "/NewCustomer/" +
+          customerName +
+          "/" +
+          customerPhNumber +
+          "/" +
+          customerPassword;
       }
     </script>
   </body>

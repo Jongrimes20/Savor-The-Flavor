@@ -3,34 +3,98 @@
   <head>
     <title>Welcome <%= customer.CUSTOMER_NAME %></title>
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <script>
+            // const entities = require("entities")
+            // const mysql = require("mysql2/promise");
+            window.onload = async function () {
+              function generateOrderList() {
+                var e = [];
+
+                <% for (var i = 0; i < len.length-1; i++) { %>
+                    e.push('<%= len[i] %>,');
+                <% } %>
+                e.push('<%= len[len.length-1] %>');
+
+                return e;
+              }
+              //   const pool = mysql.createPool({
+              //     host: process.env.DB_HOST,
+              //     user: process.env.DB_USER,
+              //     password: process.env.DB_PASSWORD,
+              //     database: process.env.DB_NAME,
+              //   });
+              //   var connection = await pool.getConnection();
+
+              //   const sql = "SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
+              //   const [rows, fields] = await connection.query(sql, [req.query.id]);
+              //   console.log(JSON.stringify(rows));
+              // Your function to generate the order list (replace this with your actual logic)
+              // function generateOrderList() {
+              //   // return <%= customer.CUSTOMER_ID %>;
+              //   // const doc = new DOMParser().parseFromString(<%= JSON.stringify(customer) %>, "text/html");
+              //   // const encodedStr = doc.replace(/[\u00A0-\u9999<>\&]/g, i => '&#'+i.charCodeAt(0)+';')
+              //   // console.log("DOC: " + entities.decode(<%= JSON.stringify(customer) %>));
+              //   console.log("YOUR ORDERS: " + <%=customer%>)
+              // return <%= JSON.stringify(customer) %>;
+              // return doc.documentElement.textContent;
+              // return cust;
+
+              // [
+              //   { id: 1, itemName: "Item 1" },
+              //   { id: 2, itemName: "Item 2" },
+              //   // { id: 3, itemName: "Item 3" },
+              //   // Add more items as needed
+              // ];
+              // }
+              generateOrderList();
+              // console.log(<%=customer%>);
+
+              // Get the container where you want to append the order items
+              const orderContainer = document.getElementById("form-container");
+
+              // // Get the customer name
+              // // const customerName = "<%=customer.CUSTOMER_NAME%>";
+
+              // // Get the order list
+              const orderList = generateOrderList();
+              // console.log("ORDER LIST: " + orderList);
+
+              // // Iterate over the order list and create HTML elements
+              orderList.forEach((item) => {
+                // Create a new div for each item
+                const newItemDiv = document.createElement("label");
+                // newItemDiv.classList.add("form-container");
+
+                // Create an h2 element for the item id
+                const newItemId = document.createElement("h3");
+                // newItemId.textContent = `${item.id}`;
+
+                // Create an h5 element for the customer name
+                // const newCustomerName = document.createElement("h2");
+                newItemId.textContent = item;
+                const br = document.createElement("space");
+
+                // Append the elements to the new div
+                newItemDiv.appendChild(newItemId);
+      newItemDiv.appendChild(br);
+                orderContainer.appendChild(newItemDiv);
+                // Append the new div to the order container
+                // orderContainer.appendChild(newItemDiv);
+
+              });
+            };
+    </script>
   </head>
   <body>
     <h1>Order History for <%= customer.CUSTOMER_NAME %></h1>
     <form>
       <!--Customer Name-->
-      <div class="form-container">
-        
+      <div id="form-container" class="form-container"></div>
 
-      <!-- ID Doesn't need to be public info does it?-->
-      <!-- <div class="form-container">
-          <h2>ID:</h2>
-          <h2 class="field"><%= customer.CUSTOMER_ID %></h2>
-        </div> -->
-
-      <!--Phone Number-->
-      
-
-      <!--Orders Available in Order History-->
-      <!-- <div class="form-container">
-          <h2>Orders:</h2>
-          <h2 class="field">n/a</h2>
-        </div> -->
-
+      <!-- <div class="form-container"> -->
       <div class="button-container">
         <!--Back to homepage-->
-        <button type="button" onclick="goToHompage()">
-          Back
-        </button>
+        <button type="button" onclick="goToHompage()">Back</button>
         <!--Submit Chnages to customer-->
       </div>
     </form>

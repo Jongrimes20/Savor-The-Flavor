@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= customer.CUSTOMER_NAME %>'s Account Managment</title>
+    <title><%= customer.CUSTOMER_NAME %>'s Account Management</title>
     <!--Links html to css-->
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
   </head>
   <body>
-    <h1><%= customer.CUSTOMER_NAME %>'s Account Managment</h1>
+    <h1><%= customer.CUSTOMER_NAME %>'s Account Management</h1>
     <form>
       <!--Customer Name-->
       <div class="form-container">
@@ -76,7 +76,8 @@
         //maybe post alert of items that will be changed
 
         //execute query in app.js
-        window.location.href = "/CustomerAccountManagment/" + customerID + "/" + customerName + "/" + customerPhNumber + "/" + customerPwrd;
+        alert("Account Updated!");
+        window.location.href = "/CustomerAccountManagement/" + customerID + "/" + customerName + "/" + customerPhNumber + "/" + customerPwrd;
       }
 
       /**
