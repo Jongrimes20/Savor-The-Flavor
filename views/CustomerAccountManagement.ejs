@@ -68,14 +68,13 @@
         const customerPhNumber = document.getElementById("customerPhNumber").value;
         const customerPwrd = document.getElementById("customerPassword").value;
 
-        if (customerName=="" || customerPhNumber == "" || customerPwrd == ""){
-          alert("You need to fill in all the details!");
+        if (customerName=="" || customerPhNumber == "" || customerPwrd == "" || customerPhNumber.length > 10
+        || customerName.length > 25 || customerPhNumber.length > 25){
+          alert("Fill All Details.\n\n> Password & Name should be only 10 digits in length\n> Name should be only 25 characters in length");
           return;
         }
 
         //maybe post alert of items that will be changed
-
-        //execute query in app.js
         alert("Account Updated!");
         window.location.href = "/CustomerAccountManagement/" + customerID + "/" + customerName + "/" + customerPhNumber + "/" + customerPwrd;
       }
