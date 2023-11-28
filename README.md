@@ -15,8 +15,9 @@ Before running the server, make sure you execute the .sql files and create a dat
 
 ### Run Project
 
-To run the project, type in the following command in side the working directory of the project `npm start`. The
-In your browser, go to `localhost:3000`. There you should be able to see a responsive webpage titled `Savor The Flavor`.
+To run the project, type in the following command in side the working directory of the project `npm start`.
+Then, in your browser, go to the following webpage: `localhost:3000`.
+Here, you should be able to see a responsive webpage titled `Savor The Flavor`.
 
 ## DISCLAIMER
 
