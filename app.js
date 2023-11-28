@@ -1,10 +1,10 @@
 // Imports
 require("dotenv").config();
-const entities = require("entities");
+// const entities = require("entities");
 const express = require("express");
 // const { connect } = require("./routes/postRoutes");
 const mysql = require("mysql2/promise");
-const { connect, search } = require("./routes/postRoutes");
+// const { connect, search } = require("./routes/postRoutes");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const PERMANENT_REDIRECT = 301;
@@ -25,7 +25,7 @@ app.use("/js", express.static(__dirname + "/public/js"));
 app.use("/img", express.static(__dirname + "/public/img"));
 app.use("/models", express.static("models"));
 app.use("/config", express.static("config"));
-app.use("/posts", require("./routes/postRoutes"));
+// app.use("/posts", require("./routes/postRoutes"));
 
 // Global Error Handler.
 app.use((err, req, res, next) => {

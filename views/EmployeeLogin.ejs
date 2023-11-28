@@ -1,0 +1,51 @@
+<!--
+    Page for employees to log into the system
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Employee Login Page</title>
+    <!--Links html to css-->
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <script src="EmployeeLogin.js"></script>
+  </head>
+
+  <body>
+    <h1>Employee Login</h1>
+    <!-- For Entering Employee Number -->
+    <form>
+      <!-- Employee Number: <input name = "Employee Number" value="" size = "10"> -->
+      <!-- Submit button - Need to run query here before proceeding to internal employee system -->
+      <div class="form-container">
+        <h2>Employee ID</h2>
+        <input
+          id="EmployeeIDInput"
+          name="EmployeeID"
+          value="ex: 12345"
+          onfocus="if(this.value=='ex: 12345') {this.value=''};"
+          onblur="if(this.value=='') {this.value='ex: 12345'}"
+        />
+      </div>
+
+      <div class="form-container">
+        <h2>SSN</h2>
+        <input
+          id="EmployeeSSNInput"
+          name="SSN"
+          value="last 4 digits only"
+          onfocus="if(this.value=='last 4 digits only') {this.value=''};"
+          onblur="if(this.value=='') {this.value='last 4 digits only'}"
+        />
+      </div>
+
+      <button
+        type="button"
+        onclick="window.location.href = '/InventoryManagement';"
+      >
+        Login
+      </button>
+
+      <p>Trouble Logging in? Contact administrator by dialing (123)-456 7890</p>
+    </form>
+  </body>
+</html>
