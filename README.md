@@ -1,19 +1,23 @@
 # Savor-The-Flavor
 
-## To Run
+## Instructions to RUN the project
 
 Since this project uses node, make sure you have nodejs installed.
 
-### Instructions to install node
+### Instructions to install nodejs
 
-If this is your first time using node, use the following link to download node:
+If this is your first time using nodejs, use the following link to download node:
 https://nodejs.org/en/download
 
-### Install Packages
+### Pre-requisites before running
 
-Once downloaded, type in the following command `npm install` to install packages (try to do this everytime you pull something from GIT).
+Before running the server, make sure you execute the .sql files and create a database. This program uses all
 
 ### Run Project
 
-To run the project, type in the following command in side the working directory of the project `npm start`
-In your browser, go to `localhost:3000`. There you should be able to see a responsive webpage!
+To run the project, type in the following command in side the working directory of the project `npm start`. The
+In your browser, go to `localhost:3000`. There you should be able to see a responsive webpage titled `Savor The Flavor`.
+
+## DISCLAIMER
+
+This project is not equipped to be hosted online yet since it makes use of the express server to render and GET files.

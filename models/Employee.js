@@ -1,7 +1,4 @@
-/**
- * Employee Class 
- * Jon Grimes 11/18/23
- */
+
 //Employee Class
 class Employee {
     employeeID;
