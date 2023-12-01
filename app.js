@@ -214,6 +214,60 @@ app.get("/CustomerLogin/:phNum/:pwd", async (req, res) => {
 //   }
 // });
 
+app.get("/CustomerOrderHistoryDelete", async (req, res) => {
+  console.log("DELETE ORDERS");
+  try {
+
+     // Get a connection from the pool
+     connection = await pool.getConnection();
+
+     var sql = "SELECT * FROM CUSTOMER_INFORMATION WHERE CUSTOMER_ID = ?";
+     const [d, _y] = await connection.query(sql, [req.query.id]);
+
+     sql = "DELETE FROM CUSTOMER_ORDERED_ITEMS WHERE CUSTOMER_ID = ?";
+     await connection.query(sql, [req.query.id]);
+
+     sql =
+       "SELECT MENU_ITEM_ID FROM CUSTOMER_ORDERED_ITEMS WHERE CUSTOMER_ID = ?";
+     //"SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
+     // Run your query
+     const [rows, fields] = await connection.query(sql, [req.query.id]);
+     var e = [];
+
+     /*
+     for (var i = 0; i < rows.length; i++) {
+      sql = "SELECT MENU_ITEM_NAME FROM MENU_ITEMS WHERE MENU_ITEM_ID = ?";
+      const [menuName, _x] = await connection.query(sql, [
+        rows[i].MENU_ITEM_ID,
+      ]);
+      e.push(menuName[0].MENU_ITEM_NAME);
+    }
+    */
+    if ( rows.length == 0 ) {
+      console.log("PIECE OUT!" + "  No Menu Items" );
+    }
+    else {
+      console.log("PIECE OUT!" + JSON.stringify(rows) + "\n" + e);
+    }
+
+    res.render("CustomerOrderHistory", {
+      customer: d[0],
+      len: e,
+      url: "saved",
+    });
+
+  } catch (error) {
+    // Handle errors
+    throw error;
+  } finally {
+    // Release the connection back to the pool
+    if (connection) {
+      connection.release();
+    }
+  }
+  });
+
+
 app.get("/CustomerOrderHistory", async (req, res) => {
   console.log("POOL");
   try {
@@ -222,6 +276,7 @@ app.get("/CustomerOrderHistory", async (req, res) => {
 
     var sql = "SELECT * FROM CUSTOMER_INFORMATION WHERE CUSTOMER_ID = ?";
     const [d, _y] = await connection.query(sql, [req.query.id]);
+
     sql =
       "SELECT MENU_ITEM_ID FROM CUSTOMER_ORDERED_ITEMS WHERE CUSTOMER_ID = ?";
     //"SELECT * FROM Customer_Information WHERE CUSTOMER_ID = ?";
@@ -242,6 +297,7 @@ app.get("/CustomerOrderHistory", async (req, res) => {
     res.render("CustomerOrderHistory", {
       customer: d[0],
       len: e,
+      url: "list",
     });
   } catch (error) {
     // Handle errors
